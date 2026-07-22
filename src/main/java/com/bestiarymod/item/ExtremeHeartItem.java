@@ -53,6 +53,7 @@ public class ExtremeHeartItem extends Item {
                 ServerPlayNetworking.send(player, new HeartSyncPayload(hearts + 1));
                 stack.shrink(1);
                 player.sendSystemMessage(Component.literal("\u00a7a\u2764 \u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
+                player.server.getPlayerList().broadcastSystemMessage(Component.literal("\u00a7c\u2764 ").append(player.getDisplayName()).append(Component.literal(" \u00a7aacaba de recuperar una vida extra")), false);
             }
         }
         return stack;
