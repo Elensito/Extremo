@@ -7,9 +7,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
@@ -30,27 +32,45 @@ public class ExtremeHeartItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (player instanceof ServerPlayer serverPlayer) {
             HeartDataAccessor accessor = (HeartDataAccessor) serverPlayer;
-            int hearts = accessor.getExtremoHearts();
-            if (hearts >= MAX_HEARTS) {
+            if (accessor.getExtremoHearts() >= MAX_HEARTS) {
                 serverPlayer.sendSystemMessage(Component.literal("\u00a7c\u00a1Ya posees el m\u00e1ximo de vidas!"));
                 return InteractionResult.FAIL;
             }
-            accessor.setExtremoHearts(hearts + 1);
-            ServerPlayNetworking.send(serverPlayer, new HeartSyncPayload(hearts + 1));
-            player.getItemInHand(hand).shrink(1);
-            serverPlayer.sendSystemMessage(Component.literal("\u00a7a\u2764 \u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
         }
-        return InteractionResult.SUCCESS;
+        player.startUsingItem(hand);
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
+        if (livingEntity instanceof ServerPlayer player) {
+            HeartDataAccessor accessor = (HeartDataAccessor) player;
+            int hearts = accessor.getExtremoHearts();
+            if (hearts < MAX_HEARTS) {
+                accessor.setExtremoHearts(hearts + 1);
+                ServerPlayNetworking.send(player, new HeartSyncPayload(hearts + 1));
+                stack.shrink(1);
+                player.sendSystemMessage(Component.literal("\u00a7a\u2764 \u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
+            }
+        }
+        return stack;
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        return 32;
+    }
+
+    @Override
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.EAT;
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.literal("\u00a77Un fragmento del coraz\u00f3n del mundo."));
         tooltipAdder.accept(Component.literal("\u00a77Al consumirlo, obtienes una vida extra en este servidor."));
-        tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a7cSolo los m\u00e1s valientes portan este poder."));
     }
 }
