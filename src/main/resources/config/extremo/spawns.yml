@@ -1,0 +1,143 @@
+# ============================================================================
+# CONFIGURACIÓN DE SPAWN NATURAL - Extremo Mod
+# ============================================================================
+# Este archivo controla el spawn natural de mobs personalizados.
+# Se recarga automáticamente al iniciar el servidor o con /extremo reload.
+#
+# Cada condición está comentada y documentada. Descomenta las que necesites.
+# ============================================================================
+
+spawns:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # EJEMPLO: Dasher - esqueleto con ballesta que hace dash
+  # ═══════════════════════════════════════════════════════════════════════════
+  # extremo:dasher:
+  #   # Activar/desactivar spawn natural
+  #   enabled: true
+  #
+  #   # Peso de spawn (mayor = más probable)
+  #   weight: 25
+  #
+  #   # Tamaño del grupo al spawnear
+  #   min_group: 1
+  #   max_group: 1
+  #
+  #   # Categoría de spawn (MONSTER, CREATURE, AMBIENT, WATER_CREATURE, etc.)
+  #   spawn_category: MONSTER
+  #
+  #   # ─── Condiciones de spawn ─────────────────────────────────────────────
+  #   conditions:
+  #     # Dimensiones donde spawnea (vacío = todas)
+  #     # Valores: minecraft:overworld, minecraft:the_nether, minecraft:the_end
+  #     dimensions:
+  #       - minecraft:overworld
+  #
+  #     # Biomas específicos donde spawnea (vacío = todos los biomas)
+  #     # biomes:
+  #     #   - minecraft:plains
+  #     #   - minecraft:forest
+  #     #   - minecraft:desert
+  #     #   - minecraft:taiga
+  #     #   - minecraft:snowy_plains
+  #     #   - minecraft:badlands
+  #     #   - minecraft:jungle
+  #     #   - minecraft:savanna
+  #     #   - minecraft:swamp
+  #     #   - minecraft:dark_forest
+  #     #   - minecraft:sunflower_plains
+  #     #   - minecraft:ice_spikes
+  #     #   - minecraft:windswept_hills
+  #     #   - minecraft:meadow
+  #     #   - minecraft:cherry_grove
+  #     #   - minecraft:grove
+  #     #   - minecraft:snowy_slopes
+  #     #   - minecraft:stony_peaks
+  #     #   - minecraft:bamboo_jungle
+  #     #   - minecraft:mushroom_fields
+  #     #   - minecraft:lush_caves
+  #     #   - minecraft:dripstone_caves
+  #     #   - minecraft:deep_dark
+  #
+  #     # Bloques sólidos sobre los que puede spawnear (vacío = cualquiera)
+  #     # spawn_blocks:
+  #     #   - minecraft:grass_block
+  #     #   - minecraft:stone
+  #     #   - minecraft:sand
+  #     #   - minecraft:gravel
+  #     #   - minecraft:netherrack
+  #     #   - minecraft:soul_sand
+  #     #   - minecraft:soul_soil
+  #     #   - minecraft:end_stone
+  #     #   - minecraft:mycelium
+  #     #   - minecraft:podzol
+  #     #   - minecraft:coarse_dirt
+  #     #   - minecraft:snow_block
+  #     #   - minecraft:ice
+  #
+  #     # ¿Puede spawnear bajo el cielo abierto?
+  #     # true = necesita cielo visible, false = necesita techo, omitir = cualquiera
+  #     # can_see_sky: true
+  #
+  #     # ¿Debe ser un slime chunk para spawnear?
+  #     # slime_chunk: false
+  #
+  #     # ¿Puede spawnear en agua?
+  #     # can_spawn_in_water: false
+  #
+  #     # ¿Puede spawnear en lava?
+  #     # can_spawn_in_lava: false
+  #
+  #     # Estructuras donde puede spawnear (vacío = cualquiera)
+  #     # structures:
+  #     #   - minecraft:village
+  #     #   - minecraft:fortress
+  #     #   - minecraft:ancient_city
+  #     #   - minecraft:stronghold
+  #     #   - minecraft:woodland_mansion
+  #     #   - minecraft:igloo
+  #     #   - minecraft:desert_pyramid
+  #     #   - minecraft:jungle_temple
+  #     #   - minecraft:swamp_hut
+  #     #   - minecraft:nether_fortress
+  #
+  #     # Rango de altura en Y
+  #     # height_min: -64
+  #     # height_max: 320
+  #
+  #     # Clima requerido
+  #     # Valores: any, clear, rain, thunder
+  #     # weather: any
+  #
+  #     # Acceso al cielo
+  #     # Valores: any, required, not_required
+  #     # sky_access: any
+  #
+  #     # Distancia al jugador más cercano (0 = desactivado)
+  #     # max_player_distance: 48
+  #     # min_player_distance: 8
+  #
+  #     # Rango horario (en ticks, 0-24000)
+  #     # time_range:
+  #     #   enabled: false
+  #     #   min: 13000   # Atardecer / noche
+  #     #   max: 23000   # Antes del amanecer
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # EJEMPLO: Hechizera - bruja que teletransporta y lanza pociones
+  # ═══════════════════════════════════════════════════════════════════════════
+  extremo:dasher:
+    enabled: true
+    weight: 100
+    min_group: 1
+    max_group: 1
+    spawn_category: MONSTER
+    conditions:
+      dimensions:
+        - minecraft:overworld
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Puedes agregar más entradas aquí con el mismo formato.
+  # El mob ID debe ser completo (namespace:path).
+  # Para mobs de este mod: extremo:dasher, extremo:hechizera
+  # Para mobs de vanilla: minecraft:zombie, minecraft:skeleton, etc.
+  # ═══════════════════════════════════════════════════════════════════════════

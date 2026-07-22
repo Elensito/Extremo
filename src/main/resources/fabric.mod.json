@@ -1,0 +1,22 @@
+{
+    "schemaVersion": 1,
+    "id": "extremo",
+    "version": "${version}",
+    "name": "Bestiary Mod",
+    "description": "A bestiary system for tracking mob kills with rewards",
+    "authors": ["Extremo"],
+    "contact": {},
+    "license": "MIT",
+    "icon": "assets/extremo/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": ["com.bestiarymod.Extremo"],
+        "client": ["com.bestiarymod.ExtremoClient"]
+    },
+    "mixins": ["mixins.extremo.json"],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": ">=26.2",
+        "fabric-api": "*"
+    }
+}
