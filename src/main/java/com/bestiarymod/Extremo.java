@@ -3,12 +3,21 @@ package com.bestiarymod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.NameAndId;
+import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.bestiarymod.command.BestiaryCommand;
@@ -20,6 +29,8 @@ import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.handler.MobKillHandler;
 import com.bestiarymod.item.ModItems;
 import com.bestiarymod.item.TpWandItem;
+import com.bestiarymod.access.HeartDataAccessor;
+import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.spawn.CustomSpawner;
 import com.bestiarymod.spawn.SpawnConfigManager;
 import com.bestiarymod.spawn.SpawnerRegistry;
@@ -47,6 +58,39 @@ public class Extremo implements ModInitializer {
         SpawnConfigManager.init();
         SpawnerRegistry.register();
         CustomSpawner.init();
+
+        PayloadTypeRegistry.clientboundPlay().register(HeartSyncPayload.TYPE, HeartSyncPayload.CODEC);
+
+        ServerPlayConnectionEvents.JOIN.register((ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) -> {
+            ServerPlayer player = handler.getPlayer();
+            HeartDataAccessor accessor = (HeartDataAccessor) player;
+            ServerPlayNetworking.send(player, new HeartSyncPayload(accessor.getExtremoHearts()));
+        });
+
+        ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
+            if (livingEntity instanceof ServerPlayer player) {
+                HeartDataAccessor accessor = (HeartDataAccessor) livingEntity;
+                int currentHearts = accessor.getExtremoHearts();
+                if (currentHearts > 0) {
+                    accessor.setExtremoHearts(currentHearts - 1);
+                    ServerPlayNetworking.send(player, new HeartSyncPayload(currentHearts - 1));
+                    if (currentHearts == 1) {
+                        MinecraftServer server = player.level().getServer();
+                        if (server != null) {
+                            Component banMessage = Component.literal("\u00a7c\u00a1Has perdido todas tus vidas!\n\u00a77Tu alma ha sido consumida por el coraz\u00f3n del mundo.");
+                            server.getPlayerList().getBans().add(new UserBanListEntry(
+                                new NameAndId(player.getGameProfile()),
+                                new Date(),
+                                "Extremo",
+                                null,
+                                "\u00a7cHas perdido todas tus vidas. Tu alma ha sido consumida."
+                            ));
+                            player.connection.disconnect(banMessage);
+                        }
+                    }
+                }
+            }
+        });
 
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             currentServer = server;

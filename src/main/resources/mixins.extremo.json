@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AnvilMenuMixin",
-    "PlayerInventoryMixin"
+    "PlayerInventoryMixin",
+    "PlayerHeartMixin",
+    "ServerPlayerHeartMixin"
   ],
   "injectors": {
     "defaultRequire": 1

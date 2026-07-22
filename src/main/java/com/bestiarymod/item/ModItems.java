@@ -86,6 +86,17 @@ public class ModItems {
         )
     );
 
+    public static final Identifier EXTREME_HEART_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "extreme_heart");
+    public static final Item EXTREME_HEART = Registry.register(
+        BuiltInRegistries.ITEM,
+        EXTREME_HEART_ID,
+        new ExtremeHeartItem(new Item.Properties()
+            .stacksTo(16)
+            .setId(ResourceKey.create(Registries.ITEM, EXTREME_HEART_ID))
+            .component(DataComponents.ITEM_MODEL, EXTREME_HEART_ID)
+        )
+    );
+
     public static final Item ENDER_PEARL_UPGRADE = Registry.register(
         BuiltInRegistries.ITEM,
         ENDER_PEARL_UPGRADE_ID,
