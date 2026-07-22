@@ -2,7 +2,6 @@ package com.bestiarymod.mixin;
 
 import com.bestiarymod.ExtremoClient;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,6 +22,7 @@ public class PlayerNameTagMixin<T extends LivingEntity, S extends LivingEntityRe
             if (playerHearts != null && renderState.nameTag != null) {
                 MutableComponent heartsText = Component.literal(" ");
                 for (int i = 0; i < playerHearts; i++) {
+                    if (i > 0) heartsText = heartsText.append(Component.literal(" "));
                     heartsText = heartsText.append(Component.literal("\u2764"));
                 }
                 renderState.nameTag = renderState.nameTag.copy().append(heartsText);
