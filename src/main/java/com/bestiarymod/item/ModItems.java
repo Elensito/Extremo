@@ -93,6 +93,7 @@ public class ModItems {
         new ExtremeHeartItem(new Item.Properties()
             .stacksTo(16)
             .setId(ResourceKey.create(Registries.ITEM, EXTREME_HEART_ID))
+            .component(DataComponents.ITEM_MODEL, EXTREME_HEART_ID)
         )
     );
 
