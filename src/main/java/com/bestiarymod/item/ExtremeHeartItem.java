@@ -2,9 +2,11 @@ package com.bestiarymod.item;
 
 import com.bestiarymod.access.HeartDataAccessor;
 import com.bestiarymod.network.HeartSyncPayload;
+import com.bestiarymod.network.ItemActivationPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,8 +53,10 @@ public class ExtremeHeartItem extends Item {
             if (hearts < MAX_HEARTS) {
                 accessor.setExtremoHearts(hearts + 1);
                 ServerPlayNetworking.send(player, new HeartSyncPayload(hearts + 1));
+                ServerPlayNetworking.send(player, new ItemActivationPayload());
                 stack.shrink(1);
                 player.sendSystemMessage(Component.literal("\u00a7a\u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
                 player.level().getServer().getPlayerList().broadcastSystemMessage(Component.literal("\u00a7c\u2764 ").append(player.getDisplayName()).append(Component.literal(" \u00a7aacaba de recuperar una vida extra")), false);
             }
         }

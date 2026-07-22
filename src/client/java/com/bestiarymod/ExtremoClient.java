@@ -1,13 +1,17 @@
 package com.bestiarymod;
 
 import com.bestiarymod.entity.ModEntities;
+import com.bestiarymod.item.ModItems;
 import com.bestiarymod.network.HeartSyncPayload;
+import com.bestiarymod.network.ItemActivationPayload;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.client.renderer.entity.WitchRenderer;
 import net.minecraft.client.renderer.entity.ZombieRenderer;
+import net.minecraft.world.item.ItemStack;
 
 public class ExtremoClient implements ClientModInitializer {
     public static int hearts = 5;
@@ -20,6 +24,10 @@ public class ExtremoClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(HeartSyncPayload.TYPE, (payload, context) -> {
             hearts = payload.hearts();
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(ItemActivationPayload.TYPE, (payload, context) -> {
+            Minecraft.getInstance().gameRenderer.displayItemActivation(new ItemStack(ModItems.EXTREME_HEART));
         });
     }
 }

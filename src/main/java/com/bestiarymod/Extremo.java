@@ -31,6 +31,7 @@ import com.bestiarymod.item.ModItems;
 import com.bestiarymod.item.TpWandItem;
 import com.bestiarymod.access.HeartDataAccessor;
 import com.bestiarymod.network.HeartSyncPayload;
+import com.bestiarymod.network.ItemActivationPayload;
 import com.bestiarymod.spawn.CustomSpawner;
 import com.bestiarymod.spawn.SpawnConfigManager;
 import com.bestiarymod.spawn.SpawnerRegistry;
@@ -60,6 +61,7 @@ public class Extremo implements ModInitializer {
         CustomSpawner.init();
 
         PayloadTypeRegistry.clientboundPlay().register(HeartSyncPayload.TYPE, HeartSyncPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ItemActivationPayload.TYPE, ItemActivationPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) -> {
             ServerPlayer player = handler.getPlayer();
