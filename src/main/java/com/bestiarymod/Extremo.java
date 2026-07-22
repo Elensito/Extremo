@@ -18,6 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.bestiarymod.command.BestiaryCommand;
@@ -32,6 +35,7 @@ import com.bestiarymod.item.TpWandItem;
 import com.bestiarymod.access.HeartDataAccessor;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
+import com.bestiarymod.network.AllHeartsSyncPayload;
 import com.bestiarymod.spawn.CustomSpawner;
 import com.bestiarymod.spawn.SpawnConfigManager;
 import com.bestiarymod.spawn.SpawnerRegistry;
@@ -62,11 +66,13 @@ public class Extremo implements ModInitializer {
 
         PayloadTypeRegistry.clientboundPlay().register(HeartSyncPayload.TYPE, HeartSyncPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ItemActivationPayload.TYPE, ItemActivationPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(AllHeartsSyncPayload.TYPE, AllHeartsSyncPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) -> {
             ServerPlayer player = handler.getPlayer();
             HeartDataAccessor accessor = (HeartDataAccessor) player;
             ServerPlayNetworking.send(player, new HeartSyncPayload(accessor.getExtremoHearts()));
+            broadcastHearts(server);
         });
 
         ServerLivingEntityEvents.AFTER_DEATH.register((livingEntity, damageSource) -> {
@@ -76,6 +82,7 @@ public class Extremo implements ModInitializer {
                 if (currentHearts > 0) {
                     accessor.setExtremoHearts(currentHearts - 1);
                     ServerPlayNetworking.send(player, new HeartSyncPayload(currentHearts - 1));
+                    broadcastHearts(player.level().getServer());
                     if (currentHearts == 1) {
                         MinecraftServer server = player.level().getServer();
                         if (server != null) {
@@ -118,5 +125,17 @@ public class Extremo implements ModInitializer {
         });
 
         LOGGER.info("Extremo initialized!");
+    }
+
+    public static void broadcastHearts(MinecraftServer server) {
+        if (server == null) return;
+        Map<UUID, Integer> heartsMap = new HashMap<>();
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            heartsMap.put(p.getUUID(), ((HeartDataAccessor) p).getExtremoHearts());
+        }
+        AllHeartsSyncPayload payload = new AllHeartsSyncPayload(heartsMap);
+        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+            ServerPlayNetworking.send(p, payload);
+        }
     }
 }

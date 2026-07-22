@@ -1,6 +1,7 @@
 package com.bestiarymod.item;
 
 import com.bestiarymod.access.HeartDataAccessor;
+import com.bestiarymod.Extremo;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -54,6 +55,7 @@ public class ExtremeHeartItem extends Item {
                 accessor.setExtremoHearts(hearts + 1);
                 ServerPlayNetworking.send(player, new HeartSyncPayload(hearts + 1));
                 ServerPlayNetworking.send(player, new ItemActivationPayload());
+                Extremo.broadcastHearts(player.level().getServer());
                 stack.shrink(1);
                 player.sendSystemMessage(Component.literal("\u00a7a\u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
