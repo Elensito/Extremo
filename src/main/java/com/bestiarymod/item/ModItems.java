@@ -109,6 +109,17 @@ public class ModItems {
         )
     );
 
+    public static final Identifier LIFE_HEART_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "life_heart");
+    public static final Item LIFE_HEART = Registry.register(
+        BuiltInRegistries.ITEM,
+        LIFE_HEART_ID,
+        new LifeHeartItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, LIFE_HEART_ID))
+            .component(DataComponents.ITEM_MODEL, LIFE_HEART_ID)
+        )
+    );
+
     public static final Identifier TP_COOKIE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_cookie");
     public static final Item TP_COOKIE = Registry.register(
         BuiltInRegistries.ITEM,

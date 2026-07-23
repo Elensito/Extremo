@@ -2,6 +2,7 @@ package com.bestiarymod.command;
 
 import com.bestiarymod.Extremo;
 import com.bestiarymod.access.ConsumableDataAccessor;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.spawn.SpawnConfigManager;
@@ -86,6 +87,12 @@ public class ExtremoCommand {
                                 var attr = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS);
                                 if (attr != null) {
                                     attr.setBaseValue(attr.getBaseValue() - 1.0);
+                                }
+                            }
+                            if (consumed.contains("life_heart")) {
+                                var attr = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
+                                if (attr != null) {
+                                    attr.setBaseValue(attr.getBaseValue() - 2.0);
                                 }
                             }
 
