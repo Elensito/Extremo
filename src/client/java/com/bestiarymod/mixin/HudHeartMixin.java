@@ -2,6 +2,7 @@ package com.bestiarymod.mixin;
 
 import com.bestiarymod.ExtremoClient;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -25,6 +26,7 @@ public class HudHeartMixin {
 
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void onExtractRenderState(GuiGraphicsExtractor graphics, DeltaTracker delta, CallbackInfo ci) {
+        if (Minecraft.getInstance().options.keyPlayerList.isDown()) return;
         int count = ExtremoClient.hearts;
         if (count <= 0) return;
         int centerScreen = graphics.guiWidth() / 2;

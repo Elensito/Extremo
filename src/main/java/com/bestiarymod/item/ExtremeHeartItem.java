@@ -47,6 +47,14 @@ public class ExtremeHeartItem extends Item {
     }
 
     @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        if (!level.isClientSide() && remainingUseDuration % 12 == 0) {
+            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
+                SoundEvents.AMETHYST_BLOCK_CHIME, livingEntity.getSoundSource(), 0.5F, 1.0F);
+        }
+    }
+
+    @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if (livingEntity instanceof ServerPlayer player) {
             HeartDataAccessor accessor = (HeartDataAccessor) player;
