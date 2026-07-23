@@ -95,8 +95,5 @@ public class TpCookieItem extends Item {
         tooltipAdder.accept(Component.literal("\u00a77desvanece entre sue\u00f1os y regresa al"));
         tooltipAdder.accept(Component.literal("\u00a77lugar donde cerraste los ojos por"));
         tooltipAdder.accept(Component.literal("\u00a77\u00faltima vez."));
-        tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a77Si nunca has descansado, el mundo"));
-        tooltipAdder.accept(Component.literal("\u00a77mismo te acoger\u00e1 en su seno."));
     }
 }
