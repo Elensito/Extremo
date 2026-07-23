@@ -1,6 +1,5 @@
 package com.bestiarymod.item;
 
-import com.bestiarymod.access.ConsumableDataAccessor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,8 +21,6 @@ import java.util.function.Consumer;
 
 public class LifeHeartItem extends Item {
     private static final Component NAME = Component.literal("\u00a7dCoraz\u00f3n Vital");
-    private static final String CONSUMABLE_KEY = "life_heart";
-    private static final int MAX_USES = 1;
     public static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_max_health");
 
     public LifeHeartItem(Properties properties) {
@@ -40,6 +37,11 @@ public class LifeHeartItem extends Item {
         }
     }
 
+    private static boolean hasConsumed(ServerPlayer player) {
+        AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
+        return attr != null && attr.getModifier(MAX_HEALTH_MODIFIER_ID) != null;
+    }
+
     @Override
     public Component getName(ItemStack stack) {
         return NAME;
@@ -47,13 +49,6 @@ public class LifeHeartItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ConsumableDataAccessor accessor = (ConsumableDataAccessor) player;
-        if (accessor.hasConsumed(CONSUMABLE_KEY)) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.sendSystemMessage(Component.literal("\u00a7cYa has consumido este objeto (" + MAX_USES + "/" + MAX_USES + ")"));
-            }
-            return InteractionResult.FAIL;
-        }
         player.startUsingItem(hand);
         return InteractionResult.CONSUME;
     }
@@ -61,21 +56,21 @@ public class LifeHeartItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if (livingEntity instanceof ServerPlayer player) {
-            ConsumableDataAccessor accessor = (ConsumableDataAccessor) player;
-            if (!accessor.hasConsumed(CONSUMABLE_KEY)) {
-                accessor.markConsumed(CONSUMABLE_KEY);
-                AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
-                if (attr != null) {
-                    attr.removeModifier(MAX_HEALTH_MODIFIER_ID);
-                    attr.addTransientModifier(new AttributeModifier(
-                        MAX_HEALTH_MODIFIER_ID, 2.0, AttributeModifier.Operation.ADD_VALUE
-                    ));
-                }
-                stack.shrink(1);
-                player.heal(2.0F);
-                player.sendSystemMessage(Component.literal("\u00a7a\u00a1Tu esencia vital se expande! Ahora tienes \u00a7c+1 coraz\u00f3n \u00a7ade vida m\u00e1xima."));
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
+            if (hasConsumed(player)) {
+                player.sendSystemMessage(Component.literal("\u00a7cYa has consumido este objeto (1/1)"));
+                return stack;
             }
+            AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
+            if (attr != null) {
+                attr.removeModifier(MAX_HEALTH_MODIFIER_ID);
+                attr.addTransientModifier(new AttributeModifier(
+                    MAX_HEALTH_MODIFIER_ID, 2.0, AttributeModifier.Operation.ADD_VALUE
+                ));
+            }
+            stack.shrink(1);
+            player.heal(2.0F);
+            player.sendSystemMessage(Component.literal("\u00a7a\u00a1Tu esencia vital se expande! Ahora tienes \u00a7c+1 coraz\u00f3n \u00a7ade vida m\u00e1xima."));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
         }
         return stack;
     }

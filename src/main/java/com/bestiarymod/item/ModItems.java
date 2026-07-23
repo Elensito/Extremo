@@ -97,7 +97,7 @@ public class ModItems {
         )
     );
 
-    public static final Identifier ENCHANTED_IRON_INGOT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "enchanted_iron_ingot");
+    public static final Identifier ENCHANTED_IRON_INGOT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "lingote_de_acero_reforzado");
     public static final Item ENCHANTED_IRON_INGOT = Registry.register(
         BuiltInRegistries.ITEM,
         ENCHANTED_IRON_INGOT_ID,
