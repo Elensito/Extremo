@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 public class LifeHeartItem extends Item {
     private static final Component NAME = Component.literal("\u00a7dCoraz\u00f3n Vital");
     private static final String CONSUMABLE_KEY = "life_heart";
+    private static final int MAX_USES = 1;
     public static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_max_health");
 
     public LifeHeartItem(Properties properties) {
@@ -46,12 +47,12 @@ public class LifeHeartItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            ConsumableDataAccessor accessor = (ConsumableDataAccessor) serverPlayer;
-            if (accessor.hasConsumed(CONSUMABLE_KEY)) {
-                serverPlayer.sendSystemMessage(Component.literal("\u00a7c\u00a1Ya has consumido este coraz\u00f3n!"));
-                return InteractionResult.FAIL;
+        ConsumableDataAccessor accessor = (ConsumableDataAccessor) player;
+        if (accessor.hasConsumed(CONSUMABLE_KEY)) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendSystemMessage(Component.literal("\u00a7cYa has consumido este objeto (" + MAX_USES + "/" + MAX_USES + ")"));
             }
+            return InteractionResult.FAIL;
         }
         player.startUsingItem(hand);
         return InteractionResult.CONSUME;
@@ -96,6 +97,6 @@ public class LifeHeartItem extends Item {
         tooltipAdder.accept(Component.literal("\u00a77Al consumirlo, tu esencia vital se expande,"));
         tooltipAdder.accept(Component.literal("\u00a77aumentando tu vida m\u00e1xima en \u00a7c+1 coraz\u00f3n\u00a77."));
         tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez."));
+        tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez por vida."));
     }
 }

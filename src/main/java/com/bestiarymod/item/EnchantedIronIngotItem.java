@@ -21,8 +21,9 @@ import net.minecraft.world.level.Level;
 import java.util.function.Consumer;
 
 public class EnchantedIronIngotItem extends Item {
-    private static final Component NAME = Component.literal("\u00a7bLingote de Hierro Encantado");
+    private static final Component NAME = Component.literal("\u00a76Coraz\u00f3n de Acero");
     private static final String CONSUMABLE_KEY = "enchanted_iron_ingot";
+    private static final int MAX_USES = 1;
     public static final Identifier ARMOR_TOUGHNESS_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_armor_toughness");
 
     public EnchantedIronIngotItem(Properties properties) {
@@ -43,12 +44,12 @@ public class EnchantedIronIngotItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            ConsumableDataAccessor accessor = (ConsumableDataAccessor) serverPlayer;
-            if (accessor.hasConsumed(CONSUMABLE_KEY)) {
-                serverPlayer.sendSystemMessage(Component.literal("\u00a7c\u00a1Ya has consumido este lingote!"));
-                return InteractionResult.FAIL;
+        ConsumableDataAccessor accessor = (ConsumableDataAccessor) player;
+        if (accessor.hasConsumed(CONSUMABLE_KEY)) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendSystemMessage(Component.literal("\u00a7cYa has consumido este objeto (" + MAX_USES + "/" + MAX_USES + ")"));
             }
+            return InteractionResult.FAIL;
         }
         player.startUsingItem(hand);
         return InteractionResult.CONSUME;
@@ -87,12 +88,11 @@ public class EnchantedIronIngotItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("\u00a77Forjado con magia antigua y hierro puro."));
+        tooltipAdder.accept(Component.literal("\u00a77El n\u00facleo de un metal imbuido"));
+        tooltipAdder.accept(Component.literal("\u00a77con energ\u00eda antigua. Al consumirlo,"));
+        tooltipAdder.accept(Component.literal("\u00a77tu piel se endurece como el acero,"));
+        tooltipAdder.accept(Component.literal("\u00a77otorg\u00e1ndote \u00a76+1 de Armor Toughness\u00a77."));
         tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a77Al consumirlo, tu piel se endurece como"));
-        tooltipAdder.accept(Component.literal("\u00a77el metal, otorg\u00e1ndote \u00a7b+1 de Armor"));
-        tooltipAdder.accept(Component.literal("\u00a7bToughness\u00a77."));
-        tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez."));
+        tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez por vida."));
     }
 }
