@@ -16,12 +16,9 @@ import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.bestiarymod.command.BestiaryCommand;
@@ -34,7 +31,6 @@ import com.bestiarymod.handler.MobKillHandler;
 import com.bestiarymod.item.ModItems;
 import com.bestiarymod.item.TpWandItem;
 import com.bestiarymod.access.HeartDataAccessor;
-import com.bestiarymod.network.AllHeartsSyncPayload;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
 import com.bestiarymod.spawn.CustomSpawner;
@@ -67,7 +63,6 @@ public class Extremo implements ModInitializer {
 
         PayloadTypeRegistry.clientboundPlay().register(HeartSyncPayload.TYPE, HeartSyncPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ItemActivationPayload.TYPE, ItemActivationPayload.CODEC);
-        PayloadTypeRegistry.clientboundPlay().register(AllHeartsSyncPayload.TYPE, AllHeartsSyncPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) -> {
             ServerPlayer player = handler.getPlayer();
@@ -134,14 +129,8 @@ public class Extremo implements ModInitializer {
         ClientboundPlayerInfoUpdatePacket updatePacket = new ClientboundPlayerInfoUpdatePacket(
             java.util.EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME), players
         );
-        Map<UUID, Integer> hearts = new HashMap<>();
         for (ServerPlayer p : players) {
             p.connection.send(updatePacket);
-            hearts.put(p.getUUID(), ((HeartDataAccessor)p).getExtremoHearts());
-        }
-        AllHeartsSyncPayload payload = new AllHeartsSyncPayload(hearts);
-        for (ServerPlayer p : players) {
-            ServerPlayNetworking.send(p, payload);
         }
     }
 }

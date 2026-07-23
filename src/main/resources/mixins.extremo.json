@@ -8,7 +8,6 @@
     "PlayerInventoryMixin",
     "PlayerHeartMixin",
     "ServerPlayerHeartMixin",
-    "ServerPlayerTabListMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -16,6 +15,5 @@
   "client": [
     "AnvilMenuMixin",
     "HudHeartMixin",
-    "PlayerTabOverlayMixin"
   ]
 }
