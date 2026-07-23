@@ -19,9 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.bestiarymod.command.BestiaryCommand;
@@ -36,7 +33,6 @@ import com.bestiarymod.item.TpWandItem;
 import com.bestiarymod.access.HeartDataAccessor;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
-import com.bestiarymod.network.AllHeartsSyncPayload;
 import com.bestiarymod.spawn.CustomSpawner;
 import com.bestiarymod.spawn.SpawnConfigManager;
 import com.bestiarymod.spawn.SpawnerRegistry;
@@ -67,7 +63,6 @@ public class Extremo implements ModInitializer {
 
         PayloadTypeRegistry.clientboundPlay().register(HeartSyncPayload.TYPE, HeartSyncPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ItemActivationPayload.TYPE, ItemActivationPayload.CODEC);
-        PayloadTypeRegistry.clientboundPlay().register(AllHeartsSyncPayload.TYPE, AllHeartsSyncPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) -> {
             ServerPlayer player = handler.getPlayer();
@@ -130,15 +125,7 @@ public class Extremo implements ModInitializer {
 
     public static void broadcastHearts(MinecraftServer server) {
         if (server == null) return;
-        Map<UUID, Integer> heartsMap = new HashMap<>();
         java.util.List<ServerPlayer> players = server.getPlayerList().getPlayers();
-        for (ServerPlayer p : players) {
-            heartsMap.put(p.getUUID(), ((HeartDataAccessor) p).getExtremoHearts());
-        }
-        AllHeartsSyncPayload payload = new AllHeartsSyncPayload(heartsMap);
-        for (ServerPlayer p : players) {
-            ServerPlayNetworking.send(p, payload);
-        }
         ClientboundPlayerInfoUpdatePacket updatePacket = new ClientboundPlayerInfoUpdatePacket(
             java.util.EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME), players
         );
