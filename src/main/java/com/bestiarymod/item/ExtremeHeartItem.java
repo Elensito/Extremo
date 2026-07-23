@@ -5,7 +5,9 @@ import com.bestiarymod.Extremo;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -66,6 +68,14 @@ public class ExtremeHeartItem extends Item {
                 Extremo.broadcastHearts(player.level().getServer());
                 stack.shrink(1);
                 player.sendSystemMessage(Component.literal("\u00a7a\u00a1Un latido eterno late en tu pecho! Tienes " + (hearts + 1) + "/" + MAX_HEARTS + " vidas."));
+                if (player.level() instanceof ServerLevel serverLevel) {
+                    double x = player.getX();
+                    double y = player.getY() + 1.0;
+                    double z = player.getZ();
+                    serverLevel.sendParticles(ParticleTypes.HEART, x, y, z, 20, 1.0, 1.0, 1.0, 0.3);
+                    serverLevel.sendParticles(ParticleTypes.TOTEM_OF_UNDYING, x, y, z, 15, 0.8, 0.8, 0.8, 0.5);
+                    serverLevel.sendParticles(ParticleTypes.WAX_ON, x, y, z, 25, 1.2, 1.2, 1.2, 0.1);
+                }
                 player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, player.getSoundSource(), 1.0F, 1.0F);
                 player.level().getServer().getPlayerList().broadcastSystemMessage(Component.literal("\u00a7c\u2764 ").append(player.getDisplayName()).append(Component.literal(" \u00a7aacaba de recuperar una vida extra")), false);
             }
