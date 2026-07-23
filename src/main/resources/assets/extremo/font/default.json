@@ -1,11 +1,3 @@
 {
-  "providers": [
-    {
-      "type": "bitmap",
-      "file": "extremo:font/heart",
-      "ascent": 7,
-      "height": 9,
-      "chars": ["\uE000"]
-    }
-  ]
+  "providers": []
 }

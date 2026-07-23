@@ -15,6 +15,7 @@
   },
   "client": [
     "AnvilMenuMixin",
-    "HudHeartMixin"
+    "HudHeartMixin",
+    "PlayerTabOverlayMixin"
   ]
 }
