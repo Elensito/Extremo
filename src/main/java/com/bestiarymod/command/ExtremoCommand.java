@@ -1,6 +1,7 @@
 package com.bestiarymod.command;
 
 import com.bestiarymod.Extremo;
+import com.bestiarymod.access.ConsumableDataAccessor;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.spawn.SpawnConfigManager;
@@ -62,6 +63,43 @@ public class ExtremoCommand {
                     })
                 )
                 .then(BestiaryConfigCommand.buildBestiaryNode(buildContext))
+                .then(Commands.literal("resetconsumables")
+                    .then(Commands.argument("player", StringArgumentType.word())
+                        .suggests((ctx, builder) -> {
+                            for (ServerPlayer p : ctx.getSource().getServer().getPlayerList().getPlayers()) {
+                                builder.suggest(p.getScoreboardName());
+                            }
+                            return builder.buildFuture();
+                        })
+                        .executes(ctx -> {
+                            CommandSourceStack src = ctx.getSource();
+                            String targetName = ctx.getArgument("player", String.class);
+                            ServerPlayer target = src.getServer().getPlayerList().getPlayerByName(targetName);
+                            if (target == null) {
+                                src.sendFailure(Component.literal("\u00a7cJugador no encontrado: " + targetName));
+                                return 0;
+                            }
+                            ConsumableDataAccessor accessor = (ConsumableDataAccessor) target;
+                            java.util.Set<String> consumed = accessor.getConsumedItems();
+
+                            if (consumed.contains("enchanted_iron_ingot")) {
+                                var attr = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS);
+                                if (attr != null) {
+                                    attr.setBaseValue(attr.getBaseValue() - 1.0);
+                                }
+                            }
+
+                            accessor.setConsumedItems(new java.util.HashSet<>());
+                            src.sendSuccess(() -> Component.literal("\u00a7aConsumibles reestablecidos para " + targetName), false);
+                            target.sendSystemMessage(Component.literal("\u00a7aTus objetos consumibles han sido reestablecidos por un administrador."));
+                            return 1;
+                        })
+                    )
+                    .executes(ctx -> {
+                        ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo resetconsumables <jugador>"));
+                        return 0;
+                    })
+                )
                 .then(Commands.literal("reload")
                         .executes(context -> {
                             CommandSourceStack src = context.getSource();
@@ -72,7 +110,7 @@ public class ExtremoCommand {
                             return 1;
                         }))
                 .executes(ctx -> {
-                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo spawn <mob> | /extremo give <item> | /extremo bestiary help | /extremo reload"));
+                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo spawn <mob> | /extremo give <item> | /extremo bestiary help | /extremo resetconsumables <jugador> | /extremo reload"));
                     return 0;
                 })
             );

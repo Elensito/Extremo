@@ -9,6 +9,8 @@
     "PlayerInventoryMixin",
     "PlayerHeartMixin",
     "ServerPlayerHeartMixin",
+    "ServerPlayerConsumableMixin",
+    "PlayerConsumableMixin",
     "ServerPlayerTabListMixin"
   ],
   "injectors": {

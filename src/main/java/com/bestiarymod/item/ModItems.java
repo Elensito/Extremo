@@ -97,6 +97,18 @@ public class ModItems {
         )
     );
 
+    public static final Identifier ENCHANTED_IRON_INGOT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "enchanted_iron_ingot");
+    public static final Item ENCHANTED_IRON_INGOT = Registry.register(
+        BuiltInRegistries.ITEM,
+        ENCHANTED_IRON_INGOT_ID,
+        new EnchantedIronIngotItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, ENCHANTED_IRON_INGOT_ID))
+            .component(DataComponents.ITEM_MODEL, ENCHANTED_IRON_INGOT_ID)
+            .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+        )
+    );
+
     public static final Identifier TP_COOKIE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_cookie");
     public static final Item TP_COOKIE = Registry.register(
         BuiltInRegistries.ITEM,
