@@ -1,0 +1,11 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "extremo:item/extreme_heart",
+      "ascent": 8,
+      "height": 9,
+      "chars": ["\uE000"]
+    }
+  ]
+}

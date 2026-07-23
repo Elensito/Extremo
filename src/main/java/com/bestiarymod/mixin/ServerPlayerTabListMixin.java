@@ -20,7 +20,7 @@ public class ServerPlayerTabListMixin {
 
         MutableComponent name = Component.literal(player.getScoreboardName());
         MutableComponent separator = Component.literal(" \u00a77\u00a7o|\u00a7r ");
-        MutableComponent heartsText = Component.literal("\u00a7c\u2764 ");
+        MutableComponent heartsText = Component.literal("\u00a7c\ue000\u00a0");
         heartsText = heartsText.append(Component.literal("\u00a7f" + hearts));
 
         cir.setReturnValue(name.append(separator).append(heartsText));
