@@ -9,7 +9,6 @@
     "PlayerInventoryMixin",
     "PlayerHeartMixin",
     "ServerPlayerHeartMixin",
-    "ServerPlayerConsumableMixin",
     "PlayerConsumableMixin",
     "ServerPlayerTabListMixin"
   ],

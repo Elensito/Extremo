@@ -2,12 +2,14 @@ package com.bestiarymod.item;
 
 import com.bestiarymod.access.ConsumableDataAccessor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,9 +23,17 @@ import java.util.function.Consumer;
 public class EnchantedIronIngotItem extends Item {
     private static final Component NAME = Component.literal("\u00a7bLingote de Hierro Encantado");
     private static final String CONSUMABLE_KEY = "enchanted_iron_ingot";
+    public static final Identifier ARMOR_TOUGHNESS_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_armor_toughness");
 
     public EnchantedIronIngotItem(Properties properties) {
         super(properties);
+    }
+
+    public static void removeModifier(ServerPlayer player) {
+        AttributeInstance attr = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
+        if (attr != null) {
+            attr.removeModifier(ARMOR_TOUGHNESS_MODIFIER_ID);
+        }
     }
 
     @Override
@@ -52,7 +62,10 @@ public class EnchantedIronIngotItem extends Item {
                 accessor.markConsumed(CONSUMABLE_KEY);
                 AttributeInstance attr = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
                 if (attr != null) {
-                    attr.setBaseValue(attr.getBaseValue() + 1.0);
+                    attr.removeModifier(ARMOR_TOUGHNESS_MODIFIER_ID);
+                    attr.addTransientModifier(new AttributeModifier(
+                        ARMOR_TOUGHNESS_MODIFIER_ID, 1.0, AttributeModifier.Operation.ADD_VALUE
+                    ));
                 }
                 stack.shrink(1);
                 player.sendSystemMessage(Component.literal("\u00a7a\u00a1Tu piel se vuelve m\u00e1s resistente! Ahora tienes +1 de Armor Toughness."));

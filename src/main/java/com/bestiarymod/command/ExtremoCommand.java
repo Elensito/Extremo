@@ -2,7 +2,8 @@ package com.bestiarymod.command;
 
 import com.bestiarymod.Extremo;
 import com.bestiarymod.access.ConsumableDataAccessor;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import com.bestiarymod.item.EnchantedIronIngotItem;
+import com.bestiarymod.item.LifeHeartItem;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.spawn.SpawnConfigManager;
@@ -81,20 +82,9 @@ public class ExtremoCommand {
                                 return 0;
                             }
                             ConsumableDataAccessor accessor = (ConsumableDataAccessor) target;
-                            java.util.Set<String> consumed = accessor.getConsumedItems();
 
-                            if (consumed.contains("enchanted_iron_ingot")) {
-                                var attr = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ARMOR_TOUGHNESS);
-                                if (attr != null) {
-                                    attr.setBaseValue(attr.getBaseValue() - 1.0);
-                                }
-                            }
-                            if (consumed.contains("life_heart")) {
-                                var attr = target.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
-                                if (attr != null) {
-                                    attr.setBaseValue(attr.getBaseValue() - 2.0);
-                                }
-                            }
+                            EnchantedIronIngotItem.removeModifier(target);
+                            LifeHeartItem.removeModifier(target);
 
                             accessor.setConsumedItems(new java.util.HashSet<>());
                             src.sendSuccess(() -> Component.literal("\u00a7aConsumibles reestablecidos para " + targetName), false);

@@ -2,12 +2,14 @@ package com.bestiarymod.item;
 
 import com.bestiarymod.access.ConsumableDataAccessor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,9 +23,20 @@ import java.util.function.Consumer;
 public class LifeHeartItem extends Item {
     private static final Component NAME = Component.literal("\u00a7dCoraz\u00f3n Vital");
     private static final String CONSUMABLE_KEY = "life_heart";
+    public static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_max_health");
 
     public LifeHeartItem(Properties properties) {
         super(properties);
+    }
+
+    public static void removeModifier(ServerPlayer player) {
+        AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
+        if (attr != null) {
+            attr.removeModifier(MAX_HEALTH_MODIFIER_ID);
+            if (player.getHealth() > player.getMaxHealth()) {
+                player.setHealth(player.getMaxHealth());
+            }
+        }
     }
 
     @Override
@@ -52,7 +65,10 @@ public class LifeHeartItem extends Item {
                 accessor.markConsumed(CONSUMABLE_KEY);
                 AttributeInstance attr = player.getAttribute(Attributes.MAX_HEALTH);
                 if (attr != null) {
-                    attr.setBaseValue(attr.getBaseValue() + 2.0);
+                    attr.removeModifier(MAX_HEALTH_MODIFIER_ID);
+                    attr.addTransientModifier(new AttributeModifier(
+                        MAX_HEALTH_MODIFIER_ID, 2.0, AttributeModifier.Operation.ADD_VALUE
+                    ));
                 }
                 stack.shrink(1);
                 player.heal(2.0F);
