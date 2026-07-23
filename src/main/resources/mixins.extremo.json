@@ -7,7 +7,8 @@
     "AnvilMenuMixin",
     "PlayerInventoryMixin",
     "PlayerHeartMixin",
-    "ServerPlayerHeartMixin"
+    "ServerPlayerHeartMixin",
+    "ServerPlayerTabListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

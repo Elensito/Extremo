@@ -17,6 +17,7 @@ import net.minecraft.server.players.UserBanListEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -130,12 +131,19 @@ public class Extremo implements ModInitializer {
     public static void broadcastHearts(MinecraftServer server) {
         if (server == null) return;
         Map<UUID, Integer> heartsMap = new HashMap<>();
-        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+        java.util.List<ServerPlayer> players = server.getPlayerList().getPlayers();
+        for (ServerPlayer p : players) {
             heartsMap.put(p.getUUID(), ((HeartDataAccessor) p).getExtremoHearts());
         }
         AllHeartsSyncPayload payload = new AllHeartsSyncPayload(heartsMap);
-        for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+        for (ServerPlayer p : players) {
             ServerPlayNetworking.send(p, payload);
+        }
+        ClientboundPlayerInfoUpdatePacket updatePacket = new ClientboundPlayerInfoUpdatePacket(
+            java.util.EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME), players
+        );
+        for (ServerPlayer p : players) {
+            p.connection.send(updatePacket);
         }
     }
 }
