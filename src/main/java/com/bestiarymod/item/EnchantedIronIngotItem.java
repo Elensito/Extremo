@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import java.util.function.Consumer;
 
 public class EnchantedIronIngotItem extends Item {
-    private static final Component NAME = Component.literal("\u00a76Coraz\u00f3n de Acero");
+    private static final Component NAME = Component.literal("\u00a77Lingote de Acero Reforzado");
     private static final String CONSUMABLE_KEY = "enchanted_iron_ingot";
     private static final int MAX_USES = 1;
     public static final Identifier ARMOR_TOUGHNESS_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "consumable_armor_toughness");
@@ -88,10 +88,10 @@ public class EnchantedIronIngotItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("\u00a77El n\u00facleo de un metal imbuido"));
-        tooltipAdder.accept(Component.literal("\u00a77con energ\u00eda antigua. Al consumirlo,"));
-        tooltipAdder.accept(Component.literal("\u00a77tu piel se endurece como el acero,"));
-        tooltipAdder.accept(Component.literal("\u00a77otorg\u00e1ndote \u00a76+1 de Armor Toughness\u00a77."));
+        tooltipAdder.accept(Component.literal("\u00a77Un lingote imbuido con energ\u00eda antigua."));
+        tooltipAdder.accept(Component.literal("\u00a77Al consumirlo, tu piel se endurece como"));
+        tooltipAdder.accept(Component.literal("\u00a77el acero, otorg\u00e1ndote \u00a77+1 de Armor"));
+        tooltipAdder.accept(Component.literal("\u00a77Toughness\u00a77."));
         tooltipAdder.accept(Component.literal(""));
         tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez por vida."));
     }
