@@ -97,6 +97,17 @@ public class ModItems {
         )
     );
 
+    public static final Identifier TP_COOKIE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_cookie");
+    public static final Item TP_COOKIE = Registry.register(
+        BuiltInRegistries.ITEM,
+        TP_COOKIE_ID,
+        new TpCookieItem(new Item.Properties()
+            .stacksTo(16)
+            .setId(ResourceKey.create(Registries.ITEM, TP_COOKIE_ID))
+            .component(DataComponents.ITEM_MODEL, TP_COOKIE_ID)
+        )
+    );
+
     public static final Item ENDER_PEARL_UPGRADE = Registry.register(
         BuiltInRegistries.ITEM,
         ENDER_PEARL_UPGRADE_ID,
