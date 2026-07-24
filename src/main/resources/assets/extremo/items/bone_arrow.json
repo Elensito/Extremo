@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "extremo:item/enchanted_arrow"
+    "model": "extremo:item/bone_arrow"
   }
 }

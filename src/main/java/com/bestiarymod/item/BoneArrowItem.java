@@ -19,11 +19,11 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import java.util.function.Consumer;
 
-public class EnchantedArrowItem extends Item {
-    private static final Component NAME = Component.literal("\u00a7bFlecha Encantada");
-    public static final Identifier DAMAGE_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "enchanted_arrow");
+public class BoneArrowItem extends Item {
+    private static final Component NAME = Component.literal("\u00a7bFlecha de Hueso");
+    public static final Identifier DAMAGE_MODIFIER_ID = Identifier.fromNamespaceAndPath("extremo", "bone_arrow");
 
-    public EnchantedArrowItem(Properties properties) {
+    public BoneArrowItem(Properties properties) {
         super(properties);
     }
 
@@ -54,12 +54,12 @@ public class EnchantedArrowItem extends Item {
             if (attr != null) {
                 attr.removeModifier(DAMAGE_MODIFIER_ID);
                 attr.addTransientModifier(new AttributeModifier(
-                    DAMAGE_MODIFIER_ID, 1.0, AttributeModifier.Operation.ADD_VALUE
+                    DAMAGE_MODIFIER_ID, 50.0, AttributeModifier.Operation.ADD_VALUE
                 ));
             }
             stack.shrink(1);
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, player.getSoundSource(), 1.0F, 1.5F);
-            player.sendSystemMessage(Component.literal("\u00a7a\u00a1El poder del arquero fluye en ti! +1 da\u00f1o de proyectil."));
+            player.sendSystemMessage(Component.literal("\u00a7a\u00a1El poder \u00f3seo fluye en ti! +50 da\u00f1o de ataque!"));
         }
         return stack;
     }
@@ -76,9 +76,9 @@ public class EnchantedArrowItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("\u00a77Una flecha imbuida con energ\u00eda \u00f3sea."));
+        tooltipAdder.accept(Component.literal("\u00a77Una flecha forjada con huesos de cazadores ca\u00eddos."));
         tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a77Al consumirla, aumentas tu \u00a7bda\u00f1o de proyectil \u00a77en \u00a7a+1\u00a77."));
+        tooltipAdder.accept(Component.literal("\u00a77Al consumirla, aumentas tu \u00a7bda\u00f1o de ataque \u00a77en \u00a7a+50\u00a77 (\u00a7cTEST\u00a77)."));
         tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez por vida."));
     }
 }

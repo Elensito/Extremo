@@ -30,14 +30,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import org.jetbrains.annotations.Nullable;
 
 public class SkeletonLord extends Skeleton {
-    private static final double SUMMON_THRESHOLD = 0.25;
-    private double nextSummonHp;
+    private static final double SUMMON_THRESHOLD = 0.5;
+    private boolean hasSummoned = false;
 
     public SkeletonLord(EntityType<? extends SkeletonLord> entityType, Level level) {
         super(entityType, level);
-        this.setCustomName(Component.literal("\u00a76Se\u00f1or de los Huesos"));
+        this.setCustomName(Component.literal("\u00a76Cazador \u00d3seo"));
         this.setCustomNameVisible(true);
-        this.nextSummonHp = getMaxHealth() * (1 - SUMMON_THRESHOLD);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class SkeletonLord extends Skeleton {
     public void die(DamageSource damageSource) {
         super.die(damageSource);
         if (!this.level().isClientSide() && this.random.nextFloat() < 0.1f) {
-            this.spawnAtLocation((ServerLevel) this.level(), new ItemStack(ModItems.ENCHANTED_ARROW), 0.0f);
+            this.spawnAtLocation((ServerLevel) this.level(), new ItemStack(ModItems.BONE_ARROW), 0.0f);
         }
     }
 
@@ -77,10 +76,10 @@ public class SkeletonLord extends Skeleton {
     }
 
     private void checkSummon() {
-        if (this.level().isClientSide() || !this.isAlive()) return;
-        if (this.getHealth() <= this.nextSummonHp) {
+        if (this.level().isClientSide() || !this.isAlive() || hasSummoned) return;
+        if (this.getHealth() <= this.getMaxHealth() * SUMMON_THRESHOLD) {
+            hasSummoned = true;
             spawnMinions();
-            this.nextSummonHp -= getMaxHealth() * SUMMON_THRESHOLD;
         }
     }
 

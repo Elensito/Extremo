@@ -7,7 +7,7 @@
   "entity.extremo.cave_brute": "Cave Brute",
   "entity.extremo.berserker_golem": "Berserker Golem",
   "item.extremo.berserker_fragment": "Berserker Fragment",
-  "item.extremo.enchanted_arrow": "Enchanted Arrow",
-  "entity.extremo.skeleton_lord": "Skeleton Lord",
+  "item.extremo.bone_arrow": "Bone Arrow",
+  "entity.extremo.skeleton_lord": "Bone Hunter",
   "entity.extremo.skeleton_minion": "Skeleton Minion"
 }

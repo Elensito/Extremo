@@ -10,7 +10,8 @@
     "PlayerHeartMixin",
     "ServerPlayerHeartMixin",
     "PlayerConsumableMixin",
-    "ServerPlayerTabListMixin"
+    "ServerPlayerTabListMixin",
+    "ArrowDamageMixin"
   ],
   "injectors": {
     "defaultRequire": 1
