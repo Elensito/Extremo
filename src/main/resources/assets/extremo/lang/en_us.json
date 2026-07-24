@@ -1,9 +1,10 @@
 {
-  "item.extremo.lingote_de_acero_reforzado": "Reinforced Steel Ingot",
   "item.extremo.life_heart": "Vital Heart",
   "item.extremo.tp_cookie": "Dream Cookie",
   "item.extremo.cartera": "Wallet",
   "entity.extremo.dasher": "Dasher",
   "entity.extremo.hechizera": "Hechizera",
-  "entity.extremo.cave_brute": "Cave Brute"
+  "entity.extremo.cave_brute": "Cave Brute",
+  "entity.extremo.berserker_golem": "Berserker Golem",
+  "item.extremo.berserker_fragment": "Berserker Fragment"
 }

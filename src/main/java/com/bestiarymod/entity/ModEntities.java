@@ -16,6 +16,15 @@ import net.minecraft.core.Registry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 
 public class ModEntities {
+    public static final EntityType<BerserkerGolem> BERSERKER_GOLEM = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "berserker_golem"),
+        EntityType.Builder.<BerserkerGolem>of(BerserkerGolem::new, MobCategory.MONSTER)
+            .sized(1.8f, 3.5f)
+            .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
+                Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "berserker_golem")))
+    );
+
     public static final EntityType<CaveBrute> CAVE_BRUTE = Registry.register(
         BuiltInRegistries.ENTITY_TYPE,
         Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "cave_brute"),
@@ -47,6 +56,7 @@ public class ModEntities {
         FabricDefaultAttributeRegistry.register(DASHER, AbstractSkeleton.createAttributes().add(Attributes.MAX_HEALTH, 50.0));
         FabricDefaultAttributeRegistry.register(HECHIZERA, Hechizera.createHechizeraAttributes());
         FabricDefaultAttributeRegistry.register(CAVE_BRUTE, CaveBrute.createAttributes());
+        FabricDefaultAttributeRegistry.register(BERSERKER_GOLEM, BerserkerGolem.createBerserkerAttributes());
         SpawnPlacements.register(DASHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
             (entityType, levelAccessor, reason, pos, randomSource) -> true);
         Extremo.LOGGER.info("Registered custom entities");

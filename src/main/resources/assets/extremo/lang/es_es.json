@@ -1,10 +1,11 @@
 {
-  "item.extremo.lingote_de_acero_reforzado": "Lingote de Acero Reforzado",
   "item.extremo.life_heart": "Coraz\u00f3n Vital",
   "item.extremo.tp_cookie": "Galleta On\u00edrica",
   "item.extremo.tp_wand": "Cetro Dimensional",
   "item.extremo.cartera": "Cartera",
   "entity.extremo.dasher": "Dasher",
   "entity.extremo.hechizera": "Hechizera",
-  "entity.extremo.cave_brute": "Bruto de las Cavernas"
+  "entity.extremo.cave_brute": "Bruto de las Cavernas",
+  "entity.extremo.berserker_golem": "Golem Berserker",
+  "item.extremo.berserker_fragment": "Fragmento de Berserker"
 }

@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 import net.minecraft.client.renderer.entity.WitchRenderer;
 import net.minecraft.client.renderer.entity.ZombieRenderer;
+import net.minecraft.client.renderer.entity.IronGolemRenderer;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class ExtremoClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.DASHER, SkeletonRenderer::new);
         EntityRendererRegistry.register(ModEntities.HECHIZERA, WitchRenderer::new);
         EntityRendererRegistry.register(ModEntities.CAVE_BRUTE, ZombieRenderer::new);
+        EntityRendererRegistry.register(ModEntities.BERSERKER_GOLEM, IronGolemRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(HeartSyncPayload.TYPE, (payload, context) -> {
             hearts = payload.hearts();

@@ -20,6 +20,7 @@ public class ModItems {
     public static final Identifier TP_WAND_4_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_wand_4");
     public static final Identifier TP_WAND_5_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_wand_5");
     public static final Identifier ENDER_PEARL_UPGRADE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "ender_pearl_upgrade");
+    public static final Identifier BERSERKER_FRAGMENT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "berserker_fragment");
 
     private static final int GRAY = 0xAAAAAA;
 
@@ -97,18 +98,6 @@ public class ModItems {
         )
     );
 
-    public static final Identifier ENCHANTED_IRON_INGOT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "lingote_de_acero_reforzado");
-    public static final Item ENCHANTED_IRON_INGOT = Registry.register(
-        BuiltInRegistries.ITEM,
-        ENCHANTED_IRON_INGOT_ID,
-        new EnchantedIronIngotItem(new Item.Properties()
-            .stacksTo(1)
-            .setId(ResourceKey.create(Registries.ITEM, ENCHANTED_IRON_INGOT_ID))
-            .component(DataComponents.ITEM_MODEL, ENCHANTED_IRON_INGOT_ID)
-            .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
-        )
-    );
-
     public static final Identifier LIFE_HEART_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "life_heart");
     public static final Item LIFE_HEART = Registry.register(
         BuiltInRegistries.ITEM,
@@ -144,6 +133,17 @@ public class ModItems {
                 Component.literal("").withStyle(style -> style.withColor(GRAY)),
                 Component.literal("Mejora el Cetro Dimensional en una mesa de herrer\u00eda.").withStyle(style -> style.withColor(GRAY))
             )))
+        )
+    );
+
+    public static final Item BERSERKER_FRAGMENT = Registry.register(
+        BuiltInRegistries.ITEM,
+        BERSERKER_FRAGMENT_ID,
+        new EnchantedIronIngotItem(new Item.Properties()
+            .stacksTo(16)
+            .setId(ResourceKey.create(Registries.ITEM, BERSERKER_FRAGMENT_ID))
+            .component(DataComponents.ITEM_MODEL, BERSERKER_FRAGMENT_ID)
+            .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
         )
     );
 

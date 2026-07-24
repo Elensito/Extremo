@@ -1,6 +1,7 @@
 package com.bestiarymod.spawn;
 
 import com.bestiarymod.Extremo;
+import com.bestiarymod.entity.BerserkerGolem;
 import com.bestiarymod.entity.CaveBrute;
 import com.bestiarymod.entity.Hechizera;
 import com.bestiarymod.entity.ModEntities;
@@ -22,6 +23,7 @@ public class SpawnerRegistry {
         factories.put("extremo:dasher", (type, level) -> new SkeletonDasher(ModEntities.DASHER, level));
         factories.put("extremo:hechizera", (type, level) -> new Hechizera(ModEntities.HECHIZERA, level));
         factories.put("extremo:cave_brute", (type, level) -> new CaveBrute(ModEntities.CAVE_BRUTE, level));
+        factories.put("extremo:berserker_golem", (type, level) -> new BerserkerGolem(ModEntities.BERSERKER_GOLEM, level));
         Extremo.LOGGER.info("[SpawnerRegistry] Fábricas registradas: {}", factories.keySet());
     }
 
