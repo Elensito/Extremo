@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.network.chat.Component;
 
 public class BerserkerGolem extends IronGolem {
     private static final double IRON_SHELL_THRESHOLD = 0.4;
@@ -38,6 +39,8 @@ public class BerserkerGolem extends IronGolem {
 
     public BerserkerGolem(EntityType<? extends BerserkerGolem> entityType, Level level) {
         super(entityType, level);
+        this.setCustomName(Component.literal("\u00a7cBerserker Golem"));
+        this.setCustomNameVisible(true);
     }
 
     @Override

@@ -52,11 +52,31 @@ public class ModEntities {
                 Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "hechizera")))
     );
 
+    public static final EntityType<SkeletonLord> SKELETON_LORD = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_lord"),
+        EntityType.Builder.<SkeletonLord>of(SkeletonLord::new, MobCategory.MONSTER)
+            .sized(0.6f, 1.99f)
+            .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
+                Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_lord")))
+    );
+
+    public static final EntityType<SkeletonMinion> SKELETON_MINION = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_minion"),
+        EntityType.Builder.<SkeletonMinion>of(SkeletonMinion::new, MobCategory.MONSTER)
+            .sized(0.6f, 1.99f)
+            .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
+                Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_minion")))
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(DASHER, AbstractSkeleton.createAttributes().add(Attributes.MAX_HEALTH, 50.0));
         FabricDefaultAttributeRegistry.register(HECHIZERA, Hechizera.createHechizeraAttributes());
         FabricDefaultAttributeRegistry.register(CAVE_BRUTE, CaveBrute.createAttributes());
         FabricDefaultAttributeRegistry.register(BERSERKER_GOLEM, BerserkerGolem.createBerserkerAttributes());
+        FabricDefaultAttributeRegistry.register(SKELETON_LORD, SkeletonLord.createSkeletonLordAttributes());
+        FabricDefaultAttributeRegistry.register(SKELETON_MINION, SkeletonMinion.createSkeletonMinionAttributes());
         SpawnPlacements.register(DASHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
             (entityType, levelAccessor, reason, pos, randomSource) -> true);
         Extremo.LOGGER.info("Registered custom entities");

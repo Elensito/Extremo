@@ -21,6 +21,7 @@ public class ModItems {
     public static final Identifier TP_WAND_5_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "tp_wand_5");
     public static final Identifier ENDER_PEARL_UPGRADE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "ender_pearl_upgrade");
     public static final Identifier BERSERKER_FRAGMENT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "berserker_fragment");
+    public static final Identifier ENCHANTED_ARROW_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "enchanted_arrow");
 
     private static final int GRAY = 0xAAAAAA;
 
@@ -143,6 +144,17 @@ public class ModItems {
             .stacksTo(16)
             .setId(ResourceKey.create(Registries.ITEM, BERSERKER_FRAGMENT_ID))
             .component(DataComponents.ITEM_MODEL, BERSERKER_FRAGMENT_ID)
+            .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+        )
+    );
+
+    public static final Item ENCHANTED_ARROW = Registry.register(
+        BuiltInRegistries.ITEM,
+        ENCHANTED_ARROW_ID,
+        new EnchantedArrowItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, ENCHANTED_ARROW_ID))
+            .component(DataComponents.ITEM_MODEL, ENCHANTED_ARROW_ID)
             .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
         )
     );

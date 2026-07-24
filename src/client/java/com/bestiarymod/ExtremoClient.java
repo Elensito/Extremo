@@ -29,6 +29,8 @@ public class ExtremoClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.HECHIZERA, WitchRenderer::new);
         EntityRendererRegistry.register(ModEntities.CAVE_BRUTE, ZombieRenderer::new);
         EntityRendererRegistry.register(ModEntities.BERSERKER_GOLEM, IronGolemRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SKELETON_LORD, SkeletonRenderer::new);
+        EntityRendererRegistry.register(ModEntities.SKELETON_MINION, SkeletonRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(HeartSyncPayload.TYPE, (payload, context) -> {
             hearts = payload.hearts();

@@ -7,5 +7,8 @@
   "entity.extremo.hechizera": "Hechizera",
   "entity.extremo.cave_brute": "Bruto de las Cavernas",
   "entity.extremo.berserker_golem": "Golem Berserker",
-  "item.extremo.berserker_fragment": "Fragmento de Berserker"
+  "item.extremo.berserker_fragment": "Fragmento de Berserker",
+  "item.extremo.enchanted_arrow": "Flecha Encantada",
+  "entity.extremo.skeleton_lord": "Se\u00f1or de los Huesos",
+  "entity.extremo.skeleton_minion": "Esqueleto Menor"
 }

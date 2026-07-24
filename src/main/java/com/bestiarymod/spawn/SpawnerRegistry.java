@@ -6,6 +6,8 @@ import com.bestiarymod.entity.CaveBrute;
 import com.bestiarymod.entity.Hechizera;
 import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.entity.SkeletonDasher;
+import com.bestiarymod.entity.SkeletonLord;
+import com.bestiarymod.entity.SkeletonMinion;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -24,6 +26,8 @@ public class SpawnerRegistry {
         factories.put("extremo:hechizera", (type, level) -> new Hechizera(ModEntities.HECHIZERA, level));
         factories.put("extremo:cave_brute", (type, level) -> new CaveBrute(ModEntities.CAVE_BRUTE, level));
         factories.put("extremo:berserker_golem", (type, level) -> new BerserkerGolem(ModEntities.BERSERKER_GOLEM, level));
+        factories.put("extremo:skeleton_lord", (type, level) -> new SkeletonLord(ModEntities.SKELETON_LORD, level));
+        factories.put("extremo:skeleton_minion", (type, level) -> new SkeletonMinion(ModEntities.SKELETON_MINION, level));
         Extremo.LOGGER.info("[SpawnerRegistry] Fábricas registradas: {}", factories.keySet());
     }
 
