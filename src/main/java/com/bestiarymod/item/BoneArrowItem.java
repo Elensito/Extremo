@@ -54,12 +54,12 @@ public class BoneArrowItem extends Item {
             if (attr != null) {
                 attr.removeModifier(DAMAGE_MODIFIER_ID);
                 attr.addTransientModifier(new AttributeModifier(
-                    DAMAGE_MODIFIER_ID, 50.0, AttributeModifier.Operation.ADD_VALUE
+                    DAMAGE_MODIFIER_ID, 1.0, AttributeModifier.Operation.ADD_VALUE
                 ));
             }
             stack.shrink(1);
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, player.getSoundSource(), 1.0F, 1.5F);
-            player.sendSystemMessage(Component.literal("\u00a7a\u00a1El poder \u00f3seo fluye en ti! +50 da\u00f1o de ataque!"));
+            player.sendSystemMessage(Component.literal("\u00a7a\u00a1El poder \u00f3seo fluye en ti! +1 da\u00f1o de ataque y proyectil."));
         }
         return stack;
     }
@@ -78,7 +78,7 @@ public class BoneArrowItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.literal("\u00a77Una flecha forjada con huesos de cazadores ca\u00eddos."));
         tooltipAdder.accept(Component.literal(""));
-        tooltipAdder.accept(Component.literal("\u00a77Al consumirla, aumentas tu \u00a7bda\u00f1o de ataque \u00a77en \u00a7a+50\u00a77 (\u00a7cTEST\u00a77)."));
+        tooltipAdder.accept(Component.literal("\u00a77Al consumirla, aumentas tu \u00a7bda\u00f1o de ataque y proyectil \u00a77en \u00a7a+1\u00a77."));
         tooltipAdder.accept(Component.literal("\u00a78\u00a7oSolo una vez por vida."));
     }
 }

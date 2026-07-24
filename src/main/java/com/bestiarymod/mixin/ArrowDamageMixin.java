@@ -31,7 +31,7 @@ public class ArrowDamageMixin {
         if (owner instanceof ServerPlayer player) {
             AttributeInstance attr = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attr != null && attr.getModifier(BoneArrowItem.DAMAGE_MODIFIER_ID) != null) {
-                this.baseDamage += 50.0;
+                this.baseDamage += 1.0;
                 extremo$damageBoosted = true;
             }
         }
