@@ -1,10 +1,9 @@
 package com.bestiarymod.mixin;
 
+import com.bestiarymod.access.ConsumableDataAccessor;
 import com.bestiarymod.item.BoneArrowItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,8 +28,8 @@ public class ArrowDamageMixin {
         if (arrow.level().isClientSide()) return;
         Entity owner = arrow.getOwner();
         if (owner instanceof ServerPlayer player) {
-            AttributeInstance attr = player.getAttribute(Attributes.ATTACK_DAMAGE);
-            if (attr != null && attr.getModifier(BoneArrowItem.DAMAGE_MODIFIER_ID) != null) {
+            ConsumableDataAccessor accessor = (ConsumableDataAccessor) player;
+            if (accessor.hasConsumed(BoneArrowItem.CONSUMED_KEY)) {
                 this.baseDamage += 1.0;
                 extremo$damageBoosted = true;
             }
