@@ -1,6 +1,7 @@
 package com.bestiarymod.mission;
 
 import com.bestiarymod.Extremo;
+import net.minecraft.network.chat.Component;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.representer.Representer;
@@ -96,13 +97,15 @@ public class MissionManager {
         }
     }
 
-    public static void tickExpired() {
+    public static void tickExpired(net.minecraft.server.MinecraftServer server) {
         for (MissionEntry entry : List.copyOf(ENTRIES.values())) {
             if (entry.isExpired()) {
                 Extremo.LOGGER.info("Auto-deleting expired mission: {}", entry.id);
+                server.getPlayerList().broadcastSystemMessage(Component.literal("\u00a7c\u26a0 Misi\u00f3n expirada: \u00a7e" + entry.getDisplayName()), false);
                 autoDelete(entry.id);
             } else if (entry.maxClaims > 0 && MissionState.getClaimCount(entry.id) >= entry.maxClaims) {
                 Extremo.LOGGER.info("Auto-deleting fully claimed mission: {}", entry.id);
+                server.getPlayerList().broadcastSystemMessage(Component.literal("\u00a7d\u26a0 Misi\u00f3n completada por todos: \u00a7e" + entry.getDisplayName()), false);
                 autoDelete(entry.id);
             }
         }

@@ -131,7 +131,7 @@ public class Extremo implements ModInitializer {
                 }
             }
             if (server.getTickCount() % 600 == 0) {
-                MissionManager.tickExpired();
+                MissionManager.tickExpired(server);
             }
         });
 
