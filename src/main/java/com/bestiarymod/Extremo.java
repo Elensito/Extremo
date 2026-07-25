@@ -91,6 +91,15 @@ public class Extremo implements ModInitializer {
                     if (currentHearts == 1) {
                         MinecraftServer server = player.level().getServer();
                         if (server != null) {
+                            // Soltar todos los items aunque keepInventory sea true
+                            net.minecraft.world.entity.player.Inventory inv = player.getInventory();
+                            for (int i = 0; i < inv.getContainerSize(); i++) {
+                                net.minecraft.world.item.ItemStack stack = inv.getItem(i);
+                                if (!stack.isEmpty()) {
+                                    player.spawnAtLocation((net.minecraft.server.level.ServerLevel) player.level(), stack);
+                                    inv.setItem(i, net.minecraft.world.item.ItemStack.EMPTY);
+                                }
+                            }
                             Component banMessage = Component.literal("\u00a7c\u00a1Has perdido todas tus vidas!\n\u00a77Tu alma ha sido consumida por el coraz\u00f3n del mundo.");
                             server.getPlayerList().getBans().add(new UserBanListEntry(
                                 new NameAndId(player.getGameProfile()),
