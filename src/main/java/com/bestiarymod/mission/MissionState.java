@@ -138,6 +138,21 @@ public class MissionState {
         return PROGRESS.getOrDefault(playerUuid, Collections.emptyMap());
     }
 
+    public static List<String> getClaimedPlayerNames(MinecraftServer server, String questId) {
+        List<String> names = new ArrayList<>();
+        for (var entry : CLAIMED.entrySet()) {
+            if (entry.getValue().getOrDefault(questId, false)) {
+                ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
+                if (player != null) {
+                    names.add(player.getName().getString());
+                } else {
+                    names.add(entry.getKey().toString().substring(0, 8));
+                }
+            }
+        }
+        return names;
+    }
+
     public static void load(MinecraftServer server) {
         Path dataDir = server.getWorldPath(LevelResource.ROOT).resolve("data").resolve("extremo");
         try {

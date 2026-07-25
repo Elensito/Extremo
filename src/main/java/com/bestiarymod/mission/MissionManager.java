@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.representer.Representer;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.List;
 
 public class MissionManager {
     private static final Map<String, MissionEntry> ENTRIES = new LinkedHashMap<>();
@@ -105,7 +106,12 @@ public class MissionManager {
                 autoDelete(entry.id);
             } else if (entry.maxClaims > 0 && MissionState.getClaimCount(entry.id) >= entry.maxClaims) {
                 Extremo.LOGGER.info("Auto-deleting fully claimed mission: {}", entry.id);
-                server.getPlayerList().broadcastSystemMessage(Component.literal("\u00a7d\u26a0 Misi\u00f3n completada por todos: \u00a7e" + entry.getDisplayName()), false);
+                List<String> claimers = MissionState.getClaimedPlayerNames(server, entry.id);
+                String playersStr = String.join("\u00a77, \u00a7f", claimers);
+                server.getPlayerList().broadcastSystemMessage(
+                    Component.literal("\u00a7d\u26a0 \u00a7e" + entry.getDisplayName() + "\u00a7d completada por \u00a7f" + playersStr + "\u00a7d. \u00a7cYa no se puede completar."),
+                    false
+                );
                 autoDelete(entry.id);
             }
         }
