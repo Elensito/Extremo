@@ -1,6 +1,7 @@
 package com.bestiarymod.gui;
 
 import com.bestiarymod.access.AccessoryDataAccessor;
+import com.bestiarymod.handler.AccessoryItemState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -14,6 +15,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import java.util.List;
 
 public class AccessoriesGui implements MenuProvider {
     private static final Identifier LOCKED_SLOT_MODEL = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
@@ -31,9 +33,11 @@ public class AccessoriesGui implements MenuProvider {
     private static class Handler extends AbstractContainerMenu {
         private final SimpleContainer inventory = new SimpleContainer(54);
         private final int unlockedSlots;
+        private final Player player;
 
         Handler(int syncId, Inventory playerInventory, Player player) {
             super(null, syncId);
+            this.player = player;
             this.unlockedSlots = Math.min(((AccessoryDataAccessor) player).getExtremoAccessorySlots(), 54);
 
             for (int i = 0; i < 54; i++) {
@@ -64,10 +68,15 @@ public class AccessoriesGui implements MenuProvider {
         }
 
         private void fillSlots() {
+            List<ItemStack> items = AccessoryItemState.getItems(player.getUUID());
             inventory.clearContent();
             for (int i = 0; i < 54; i++) {
                 if (i < unlockedSlots) {
-                    inventory.setItem(i, ItemStack.EMPTY);
+                    if (i < items.size() && !items.get(i).isEmpty()) {
+                        inventory.setItem(i, items.get(i).copy());
+                    } else {
+                        inventory.setItem(i, ItemStack.EMPTY);
+                    }
                 } else {
                     ItemStack slot = new ItemStack(Items.BARRIER);
                     slot.set(DataComponents.ITEM_MODEL, LOCKED_SLOT_MODEL);
@@ -75,6 +84,20 @@ public class AccessoriesGui implements MenuProvider {
                     inventory.setItem(i, slot);
                 }
             }
+        }
+
+        @Override
+        public void removed(Player player) {
+            super.removed(player);
+            saveItems();
+        }
+
+        private void saveItems() {
+            List<ItemStack> items = AccessoryItemState.getItems(player.getUUID());
+            for (int i = 0; i < 54; i++) {
+                items.set(i, inventory.getItem(i).copy());
+            }
+            AccessoryItemState.setItems(player.getUUID(), items);
         }
 
         @Override

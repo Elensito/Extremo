@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.UserBanListEntry;
@@ -32,6 +33,8 @@ import com.bestiarymod.command.QuestCommand;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.entity.ModEntities;
+import com.bestiarymod.handler.AccessoryEffectHandler;
+import com.bestiarymod.handler.AccessoryItemState;
 import com.bestiarymod.handler.MobKillHandler;
 import com.bestiarymod.item.ModItems;
 import com.bestiarymod.item.TpWandItem;
@@ -121,12 +124,14 @@ public class Extremo implements ModInitializer {
             currentServer = server;
             BestiaryConfigManager.loadAll(FabricLoader.getInstance().getConfigDir());
             BestiaryState.load(server);
+            AccessoryItemState.load(server);
             MissionManager.loadAll(FabricLoader.getInstance().getConfigDir());
             MissionState.load(server);
         });
 
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             BestiaryState.save(server);
+            AccessoryItemState.save(server);
             MissionState.save(server);
         });
 
@@ -140,6 +145,10 @@ public class Extremo implements ModInitializer {
                         Component.literal("\u00a7d\u2728 Cetro Dimensional \u00a77recargando \u00a7f" + seconds + "s")
                     ));
                 }
+            }
+            for (ServerLevel level : server.getAllLevels()) {
+                if (level.getServer() == null) break;
+                AccessoryEffectHandler.tick(level);
             }
             if (server.getTickCount() % 600 == 0) {
                 MissionManager.tickExpired(server);

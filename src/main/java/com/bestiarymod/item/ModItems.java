@@ -188,6 +188,62 @@ public class ModItems {
     public static final Item COIN_NETHERITE = coin("Moneda de Netherita Gris Oscuro", 0x444444, COIN_NETHERITE_ID);
     public static final Item COIN_REDSTONE = coin("Moneda de Redstone", 0xFF5555, COIN_REDSTONE_ID);
 
+    // --- Accesorios items ---
+    public static final Identifier HUNTER_TALISMAN_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "hunter_talisman");
+    public static final Item HUNTER_TALISMAN = Registry.register(
+        BuiltInRegistries.ITEM,
+        HUNTER_TALISMAN_ID,
+        new HunterTalismanItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, HUNTER_TALISMAN_ID))
+            .component(DataComponents.ITEM_MODEL, HUNTER_TALISMAN_ID)
+        )
+    );
+
+    public static final Identifier VAMPIRE_TALISMAN_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "vampire_talisman");
+    public static final Item VAMPIRE_TALISMAN = Registry.register(
+        BuiltInRegistries.ITEM,
+        VAMPIRE_TALISMAN_ID,
+        new VampireTalismanItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, VAMPIRE_TALISMAN_ID))
+            .component(DataComponents.ITEM_MODEL, VAMPIRE_TALISMAN_ID)
+        )
+    );
+
+    public static final Identifier WITCH_TALISMAN_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "witch_talisman");
+    public static final Item WITCH_TALISMAN = Registry.register(
+        BuiltInRegistries.ITEM,
+        WITCH_TALISMAN_ID,
+        new WitchTalismanItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, WITCH_TALISMAN_ID))
+            .component(DataComponents.ITEM_MODEL, WITCH_TALISMAN_ID)
+        )
+    );
+
+    public static final Identifier HUNTER_KNIFE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "hunter_knife");
+    public static final Item HUNTER_KNIFE = Registry.register(
+        BuiltInRegistries.ITEM,
+        HUNTER_KNIFE_ID,
+        new HunterKnifeItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, HUNTER_KNIFE_ID))
+            .component(DataComponents.ITEM_MODEL, HUNTER_KNIFE_ID)
+        )
+    );
+
+    public static final Identifier LENTE_VISION_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "lente_vision");
+    public static final Item LENTE_VISION = Registry.register(
+        BuiltInRegistries.ITEM,
+        LENTE_VISION_ID,
+        new LenteVisionItem(new Item.Properties()
+            .stacksTo(1)
+            .setId(ResourceKey.create(Registries.ITEM, LENTE_VISION_ID))
+            .component(DataComponents.ITEM_MODEL, LENTE_VISION_ID)
+        )
+    );
+
     public static void register() {
         Extremo.LOGGER.info("Registered custom items");
     }

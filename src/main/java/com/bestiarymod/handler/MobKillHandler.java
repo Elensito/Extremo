@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 public class MobKillHandler {
@@ -19,6 +20,10 @@ public class MobKillHandler {
             if (!(source instanceof ServerPlayer player)) return;
 
             if (entity instanceof Player) return;
+
+            if (AccessoryEffectHandler.hasAmuletoSangre(player)) {
+                player.heal(2.0f);
+            }
 
             String mobId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
             if (mobId.isEmpty()) return;

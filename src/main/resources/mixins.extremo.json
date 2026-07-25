@@ -13,7 +13,9 @@
     "ServerPlayerAccessoryMixin",
     "PlayerConsumableMixin",
     "ServerPlayerTabListMixin",
-    "ArrowDamageMixin"
+    "ArrowDamageMixin",
+    "HunterKnifeDamageMixin",
+    "PotionDurationMixin"
   ],
   "injectors": {
     "defaultRequire": 1
