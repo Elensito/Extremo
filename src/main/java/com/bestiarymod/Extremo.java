@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.bestiarymod.command.AccessoriesCommand;
 import com.bestiarymod.command.BestiaryCommand;
 import com.bestiarymod.command.BestiaryConfigCommand;
 import com.bestiarymod.command.ExtremoCommand;
@@ -61,6 +62,7 @@ public class Extremo implements ModInitializer {
         ModItems.register();
         ModEntities.register();
         BestiaryCommand.register();
+        AccessoriesCommand.register();
         ExtremoCommand.register();
         MobKillHandler.register();
         QuestCommand.register();
