@@ -148,6 +148,17 @@ public class ModItems {
         )
     );
 
+    public static final Identifier ACCESORY_BAG_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "accesory_bag");
+    public static final Item ACCESORY_BAG = Registry.register(
+        BuiltInRegistries.ITEM,
+        ACCESORY_BAG_ID,
+        new AccessoryBagItem(new Item.Properties()
+            .stacksTo(16)
+            .setId(ResourceKey.create(Registries.ITEM, ACCESORY_BAG_ID))
+            .component(DataComponents.ITEM_MODEL, ACCESORY_BAG_ID)
+        )
+    );
+
     public static final Item BONE_ARROW = Registry.register(
         BuiltInRegistries.ITEM,
         BONE_ARROW_ID,

@@ -8,7 +8,9 @@
     "AnvilMenuMixin",
     "PlayerInventoryMixin",
     "PlayerHeartMixin",
+    "PlayerAccessoryMixin",
     "ServerPlayerHeartMixin",
+    "ServerPlayerAccessoryMixin",
     "PlayerConsumableMixin",
     "ServerPlayerTabListMixin",
     "ArrowDamageMixin"
