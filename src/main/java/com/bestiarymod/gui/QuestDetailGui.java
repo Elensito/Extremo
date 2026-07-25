@@ -256,6 +256,12 @@ public class QuestDetailGui implements MenuProvider {
             boolean shouldDelete = false;
             if (entry.maxClaims > 0 && MissionState.getClaimCount(questId) >= entry.maxClaims) {
                 shouldDelete = true;
+                List<String> claimers = MissionState.getClaimedPlayerNames(com.bestiarymod.Extremo.currentServer, questId);
+                String playersStr = String.join("\u00a77, \u00a7f", claimers);
+                com.bestiarymod.Extremo.currentServer.getPlayerList().broadcastSystemMessage(
+                    Component.literal("\u00a7d\u26a0 \u00a7e" + entry.getDisplayName() + "\u00a7d completada por \u00a7f" + playersStr + "\u00a7d. \u00a7cYa no se puede completar."),
+                    false
+                );
             } else if (entry.isExpired() && !MissionState.hasUnclaimedCompletions(questId)) {
                 shouldDelete = true;
             }
