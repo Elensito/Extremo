@@ -249,8 +249,13 @@ public class QuestDetailGui implements MenuProvider {
             sp.sendSystemMessage(Component.literal("\u00a7a[Misiones] \u00a1Recompensa reclamada: " + entry.getDisplayName() + "!"));
             ((ServerPlayer) player).closeContainer();
 
-            int claimCount = MissionState.getClaimCount(questId);
-            if (entry.maxClaims > 0 && claimCount >= entry.maxClaims) {
+            boolean shouldDelete = false;
+            if (entry.maxClaims > 0 && MissionState.getClaimCount(questId) >= entry.maxClaims) {
+                shouldDelete = true;
+            } else if (entry.isExpired() && !MissionState.hasUnclaimedCompletions(questId)) {
+                shouldDelete = true;
+            }
+            if (shouldDelete) {
                 MissionManager.autoDelete(questId);
                 player.openMenu(new QuestListGui(0));
             } else {

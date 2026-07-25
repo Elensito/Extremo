@@ -58,6 +58,18 @@ public class MissionState {
         return true;
     }
 
+    public static boolean hasUnclaimedCompletions(String questId) {
+        MissionEntry entry = MissionManager.getEntry(questId);
+        if (entry == null) return false;
+        for (var entry2 : PROGRESS.entrySet()) {
+            int progress = entry2.getValue().getOrDefault(questId, 0);
+            if (progress >= entry.amount && !isClaimed(entry2.getKey(), questId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void claimReward(UUID playerUuid, String questId) {
         CLAIMED.computeIfAbsent(playerUuid, k -> new ConcurrentHashMap<>()).put(questId, true);
         CLAIM_COUNTS.merge(questId, 1, Integer::sum);
