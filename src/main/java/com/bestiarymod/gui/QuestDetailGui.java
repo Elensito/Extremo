@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestDetailGui implements MenuProvider {
+    private static final Identifier LOCKED_SLOT = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
     private final String questId;
 
     public QuestDetailGui(String questId) {
@@ -170,8 +171,9 @@ public class QuestDetailGui implements MenuProvider {
                 }
                 for (var ri : entry.itemRewards) {
                     Identifier itemId = Identifier.tryParse(ri.item);
-                    var item = itemId != null ? BuiltInRegistries.ITEM.get(itemId).map(h -> h.value()).orElse(Items.BARRIER) : Items.BARRIER;
-                    ItemStack rewardStack = new ItemStack(item, Math.min(ri.count, 64));
+                    var fallbackItem = itemId != null ? BuiltInRegistries.ITEM.get(itemId).map(h -> h.value()).orElse(Items.BARRIER) : Items.BARRIER;
+                    ItemStack rewardStack = new ItemStack(fallbackItem, Math.min(ri.count, 64));
+                    if (fallbackItem == Items.BARRIER) rewardStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                     String name = ri.item.contains(":") ? ri.item.substring(ri.item.indexOf(":") + 1) : ri.item;
                     rewardStack.set(DataComponents.CUSTOM_NAME, Component.literal(name).withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD));
                     List<Component> rewardLore = new ArrayList<>();
@@ -197,6 +199,7 @@ public class QuestDetailGui implements MenuProvider {
                     claimStack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
                 } else {
                     claimStack = new ItemStack(Items.BARRIER);
+                    claimStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                     claimStack.set(DataComponents.CUSTOM_NAME, Component.literal("Bloqueado").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.BOLD));
                 }
                 inventory.setItem(40, claimStack);
@@ -206,6 +209,7 @@ public class QuestDetailGui implements MenuProvider {
                 inventory.setItem(45, backStack);
 
                 ItemStack exitStack = new ItemStack(Items.BARRIER);
+                exitStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                 exitStack.set(DataComponents.CUSTOM_NAME, Component.literal("Salir").withStyle(ChatFormatting.RED));
                 inventory.setItem(53, exitStack);
 

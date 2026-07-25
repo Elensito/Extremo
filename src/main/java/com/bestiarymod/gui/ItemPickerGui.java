@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemPickerGui implements MenuProvider {
+    private static final Identifier LOCKED_SLOT = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
     private final String questId;
     private final int page;
 
@@ -110,6 +111,7 @@ public class ItemPickerGui implements MenuProvider {
             inventory.setItem(50, nextStack);
 
             ItemStack closeStack = new ItemStack(Items.BARRIER);
+            closeStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
             closeStack.set(DataComponents.CUSTOM_NAME, Component.literal("\u00a7cSalir"));
             inventory.setItem(53, closeStack);
         }

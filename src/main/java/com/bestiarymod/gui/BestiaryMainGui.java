@@ -19,11 +19,13 @@ import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.component.ItemLore;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BestiaryMainGui implements MenuProvider {
+    private static final Identifier LOCKED_SLOT = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
     private final int page;
 
     public BestiaryMainGui(int page) {
@@ -127,6 +129,7 @@ public class BestiaryMainGui implements MenuProvider {
                 }
 
                 ItemStack closeStack = new ItemStack(Items.BARRIER);
+                closeStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                 closeStack.set(DataComponents.CUSTOM_NAME, Component.literal("Salir").withStyle(ChatFormatting.RED));
                 inventory.setItem(53, closeStack);
             } catch (Exception e) {

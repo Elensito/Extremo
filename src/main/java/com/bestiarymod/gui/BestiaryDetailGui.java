@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BestiaryDetailGui implements MenuProvider {
+    private static final Identifier LOCKED_SLOT = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
     private final String mobId;
 
     public BestiaryDetailGui(String mobId) {
@@ -158,6 +159,7 @@ public class BestiaryDetailGui implements MenuProvider {
                 inventory.setItem(45, backStack);
 
                 ItemStack exitStack = new ItemStack(Items.BARRIER);
+                exitStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                 exitStack.set(DataComponents.CUSTOM_NAME, Component.literal("Salir").withStyle(ChatFormatting.RED));
                 inventory.setItem(53, exitStack);
             } catch (Exception e) {

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class QuestListGui implements MenuProvider {
+    private static final Identifier LOCKED_SLOT = Identifier.fromNamespaceAndPath("extremo", "accessory_slot");
     private final int page;
 
     public QuestListGui(int page) {
@@ -117,6 +118,7 @@ public class QuestListGui implements MenuProvider {
                         Identifier iconId = Identifier.tryParse(entry.iconItem);
                         var iconItem = iconId != null ? BuiltInRegistries.ITEM.get(iconId).map(h -> h.value()).orElse(Items.BARRIER) : Items.BARRIER;
                         displayItem = new ItemStack(iconItem);
+                        if (iconItem == Items.BARRIER) displayItem.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                     } else if (entry.type.equals("kill")) {
                         Identifier entityId = Identifier.tryParse(entry.target);
                         if (entityId != null) {
@@ -178,6 +180,7 @@ public class QuestListGui implements MenuProvider {
                 }
 
                 ItemStack closeStack = new ItemStack(Items.BARRIER);
+                closeStack.set(DataComponents.ITEM_MODEL, LOCKED_SLOT);
                 closeStack.set(DataComponents.CUSTOM_NAME, Component.literal("Salir").withStyle(ChatFormatting.RED));
                 inventory.setItem(53, closeStack);
             } catch (Exception e) {
