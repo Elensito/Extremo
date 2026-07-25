@@ -16,6 +16,7 @@ public class MissionEntry {
     public int coinReward;
     public long expiresAt; // epoch millis, 0 = no expiry
     public int maxClaims; // 0 = unlimited
+    public String iconItem; // item ID for GUI display icon
     public List<ItemReward> itemRewards = new ArrayList<>();
 
     public boolean isExpired() {
@@ -39,6 +40,7 @@ public class MissionEntry {
         e.coinReward = data.get("coins") instanceof Number n ? n.intValue() : 0;
         e.expiresAt = data.get("expires_at") instanceof Number n ? n.longValue() : 0;
         e.maxClaims = data.get("max_claims") instanceof Number n ? n.intValue() : 0;
+        e.iconItem = (String) data.get("icon_item");
         if (data.containsKey("items")) {
             for (Map<String, Object> ri : (List<Map<String, Object>>) data.get("items")) {
                 ItemReward ir = new ItemReward();
@@ -61,6 +63,7 @@ public class MissionEntry {
         if (coinReward > 0) data.put("coins", coinReward);
         if (expiresAt > 0) data.put("expires_at", expiresAt);
         if (maxClaims > 0) data.put("max_claims", maxClaims);
+        if (iconItem != null && !iconItem.isEmpty()) data.put("icon_item", iconItem);
         if (!itemRewards.isEmpty()) {
             List<Map<String, Object>> items = new ArrayList<>();
             for (ItemReward ir : itemRewards) {

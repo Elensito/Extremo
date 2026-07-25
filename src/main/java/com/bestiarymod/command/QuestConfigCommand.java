@@ -125,6 +125,16 @@ public class QuestConfigCommand {
                     return 0;
                 })
             )
+            .then(Commands.literal("seticon")
+                .then(Commands.argument("id", StringArgumentType.word())
+                    .suggests(suggestQuestIds)
+                    .executes(ctx -> executeSetIcon(ctx))
+                )
+                .executes(ctx -> {
+                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo misiones seticon <id>"));
+                    return 0;
+                })
+            )
             .then(Commands.literal("list")
                 .executes(ctx -> executeList(ctx))
             )
@@ -156,6 +166,8 @@ public class QuestConfigCommand {
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Hace la misi\u00f3n temporal (se autoborra al vencer)"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  setmaxclaims <id> <cantidad>"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    L\u00edmite de jugadores que pueden reclamar la misi\u00f3n"), false);
+                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  seticon <id>"), false);
+                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Abre un selector de icono para la misi\u00f3n"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  delete <id>"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Elimina una misi\u00f3n"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  list"), false);
@@ -294,6 +306,21 @@ public class QuestConfigCommand {
         return 1;
     }
 
+    private static int executeSetIcon(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack src = ctx.getSource();
+        String id = ctx.getArgument("id", String.class);
+        if (!MissionManager.hasEntry(id)) {
+            src.sendFailure(Component.literal("\u00a7cMisi\u00f3n no encontrada: " + id));
+            return 0;
+        }
+        if (src.getEntity() instanceof net.minecraft.server.level.ServerPlayer sp) {
+            sp.openMenu(new com.bestiarymod.gui.ItemPickerGui(id, 0));
+        } else {
+            src.sendFailure(Component.literal("\u00a7cEste comando solo puede usarlo un jugador"));
+        }
+        return 1;
+    }
+
     private static int executeAddItem(CommandContext<CommandSourceStack> ctx, double chance) {
         CommandSourceStack src = ctx.getSource();
         String id = ctx.getArgument("id", String.class);
@@ -377,6 +404,9 @@ public class QuestConfigCommand {
         src.sendSuccess(() -> Component.literal("\u00a77Tipo: \u00a7f" + entry.type), false);
         src.sendSuccess(() -> Component.literal("\u00a77Target: \u00a7f" + entry.target), false);
         src.sendSuccess(() -> Component.literal("\u00a77Cantidad: \u00a7f" + entry.amount), false);
+        if (entry.iconItem != null && !entry.iconItem.isEmpty()) {
+            src.sendSuccess(() -> Component.literal("\u00a77Icono: \u00a7f" + entry.iconItem), false);
+        }
         src.sendSuccess(() -> Component.literal("\u00a77Recompensas:"), false);
         if (entry.xpReward > 0) src.sendSuccess(() -> Component.literal("\u00a7a  - " + entry.xpReward + " XP"), false);
         if (entry.coinReward > 0) src.sendSuccess(() -> Component.literal("\u00a76  - " + entry.coinReward + " monedas"), false);

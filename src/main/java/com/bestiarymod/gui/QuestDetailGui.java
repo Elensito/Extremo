@@ -92,7 +92,11 @@ public class QuestDetailGui implements MenuProvider {
                 if (percent > 100) percent = 100;
 
                 ItemStack infoStack;
-                if (entry.type.equals("kill")) {
+                if (entry.iconItem != null && !entry.iconItem.isEmpty()) {
+                    Identifier iconId = Identifier.tryParse(entry.iconItem);
+                    var iconItem = iconId != null ? BuiltInRegistries.ITEM.get(iconId).map(h -> h.value()).orElse(Items.BOOK) : Items.BOOK;
+                    infoStack = new ItemStack(iconItem);
+                } else if (entry.type.equals("kill")) {
                     Identifier entityId = Identifier.tryParse(entry.target);
                     if (entityId != null) {
                         var eggId = Identifier.fromNamespaceAndPath(entityId.getNamespace(), entityId.getPath() + "_spawn_egg");

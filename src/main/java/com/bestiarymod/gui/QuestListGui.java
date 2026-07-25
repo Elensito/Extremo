@@ -58,13 +58,12 @@ public class QuestListGui implements MenuProvider {
             this.entries = new ArrayList<>();
             for (MissionEntry e : MissionManager.getAllEntries()) {
                 if (MissionState.isClaimed(puid, e.id)) continue;
-                if (e.isExpired()) continue;
-                if (e.maxClaims > 0 && MissionState.getClaimCount(e.id) >= e.maxClaims) continue;
+                if (e.isExpired() && MissionState.getProgress(puid, e.id) < e.amount) continue;
+                if (e.maxClaims > 0 && MissionState.getClaimCount(e.id) >= e.maxClaims && !MissionState.isCompleted(puid, e.id)) continue;
                 this.entries.add(e);
             }
             for (MissionEntry e : MissionManager.getAllDeleted()) {
                 if (MissionState.isClaimed(puid, e.id)) continue;
-                if (e.maxClaims > 0 && MissionState.getClaimCount(e.id) >= e.maxClaims) continue;
                 if (MissionState.getProgress(puid, e.id) >= e.amount) {
                     this.entries.add(e);
                 }
@@ -114,7 +113,11 @@ public class QuestListGui implements MenuProvider {
                     if (percent > 100) percent = 100;
 
                     ItemStack displayItem;
-                    if (entry.type.equals("kill")) {
+                    if (entry.iconItem != null && !entry.iconItem.isEmpty()) {
+                        Identifier iconId = Identifier.tryParse(entry.iconItem);
+                        var iconItem = iconId != null ? BuiltInRegistries.ITEM.get(iconId).map(h -> h.value()).orElse(Items.BARRIER) : Items.BARRIER;
+                        displayItem = new ItemStack(iconItem);
+                    } else if (entry.type.equals("kill")) {
                         Identifier entityId = Identifier.tryParse(entry.target);
                         if (entityId != null) {
                             var eggId = Identifier.fromNamespaceAndPath(entityId.getNamespace(), entityId.getPath() + "_spawn_egg");
