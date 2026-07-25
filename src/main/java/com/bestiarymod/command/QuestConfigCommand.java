@@ -129,9 +129,13 @@ public class QuestConfigCommand {
                 .then(Commands.argument("id", StringArgumentType.word())
                     .suggests(suggestQuestIds)
                     .executes(ctx -> executeSetIcon(ctx))
+                    .then(Commands.argument("item", StringArgumentType.greedyString())
+                        .suggests(QuestConfigCommand::suggestItems)
+                        .executes(ctx -> executeSetIconItem(ctx))
+                    )
                 )
                 .executes(ctx -> {
-                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo misiones seticon <id>"));
+                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo misiones seticon <id> [item]"));
                     return 0;
                 })
             )
@@ -166,8 +170,8 @@ public class QuestConfigCommand {
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Hace la misi\u00f3n temporal (se autoborra al vencer)"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  setmaxclaims <id> <cantidad>"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    L\u00edmite de jugadores que pueden reclamar la misi\u00f3n"), false);
-                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  seticon <id>"), false);
-                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Abre un selector de icono para la misi\u00f3n"), false);
+                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  seticon <id> [item]"), false);
+                    ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Abre un selector de icono o asigna directamente con [item]"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  delete <id>"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a77    Elimina una misi\u00f3n"), false);
                     ctx.getSource().sendSuccess(() -> Component.literal("\u00a7a  list"), false);
@@ -184,6 +188,16 @@ public class QuestConfigCommand {
                     return 1;
                 })
             );
+    }
+
+    private static CompletableFuture<Suggestions> suggestItems(CommandContext<CommandSourceStack> ctx, SuggestionsBuilder builder) {
+        String current = builder.getInput().substring(builder.getStart());
+        if (!current.contains(" ")) {
+            for (Identifier id : BuiltInRegistries.ITEM.keySet()) {
+                builder.suggest(id.toString());
+            }
+        }
+        return builder.buildFuture();
     }
 
     private static CompletableFuture<Suggestions> suggestTargets(CommandContext<CommandSourceStack> ctx, SuggestionsBuilder builder) {
@@ -318,6 +332,26 @@ public class QuestConfigCommand {
         } else {
             src.sendFailure(Component.literal("\u00a7cEste comando solo puede usarlo un jugador"));
         }
+        return 1;
+    }
+
+    private static int executeSetIconItem(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack src = ctx.getSource();
+        String id = ctx.getArgument("id", String.class);
+        var entry = MissionManager.getEntry(id);
+        if (entry == null) {
+            src.sendFailure(Component.literal("\u00a7cMisi\u00f3n no encontrada: " + id));
+            return 0;
+        }
+        String itemStr = ctx.getArgument("item", String.class).trim();
+        Identifier itemId = Identifier.tryParse(itemStr);
+        if (itemId == null || BuiltInRegistries.ITEM.get(itemId).isEmpty()) {
+            src.sendFailure(Component.literal("\u00a7cItem no encontrado: " + itemStr));
+            return 0;
+        }
+        entry.iconItem = itemStr;
+        MissionManager.saveEntry(entry);
+        src.sendSuccess(() -> Component.literal("\u00a7aIcono de " + id + " actualizado a: " + itemStr), false);
         return 1;
     }
 
