@@ -111,9 +111,14 @@ public class MissionManager {
             } else if (entry.maxClaims > 0 && MissionState.getClaimCount(entry.id) >= entry.maxClaims) {
                 Extremo.LOGGER.info("Auto-deleting fully claimed mission: {}", entry.id);
                 List<String> claimers = MissionState.getClaimedPlayerNames(server, entry.id);
-                String playersStr = String.join("\u00a77, \u00a7f", claimers);
+                StringBuilder msg = new StringBuilder("\u00a7f" + entry.getDisplayName() + " completada por ");
+                for (int i = 0; i < claimers.size(); i++) {
+                    if (i > 0) msg.append("\u00a7f, ");
+                    msg.append("\u00a7f\u00a7l").append(claimers.get(i));
+                }
+                msg.append("\u00a7f. Ya no se puede completar.");
                 server.getPlayerList().broadcastSystemMessage(
-                    Component.literal("\u00a7d\u26a0 \u00a7e" + entry.getDisplayName() + "\u00a7d completada por \u00a7f" + playersStr + "\u00a7d. \u00a7cYa no se puede completar."),
+                    Component.literal(msg.toString()),
                     false
                 );
                 autoDelete(entry.id);
