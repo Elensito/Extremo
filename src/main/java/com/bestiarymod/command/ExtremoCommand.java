@@ -6,6 +6,8 @@ import com.bestiarymod.item.EnchantedIronIngotItem;
 import com.bestiarymod.item.LifeHeartItem;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
+import com.bestiarymod.mission.MissionManager;
+import com.bestiarymod.mission.MissionState;
 import com.bestiarymod.spawn.SpawnConfigManager;
 import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.entity.SkeletonDasher;
@@ -65,6 +67,7 @@ public class ExtremoCommand {
                     })
                 )
                 .then(BestiaryConfigCommand.buildBestiaryNode(buildContext))
+                .then(QuestConfigCommand.buildMissionNode(buildContext))
                 .then(Commands.literal("resetconsumables")
                     .then(Commands.argument("player", StringArgumentType.word())
                         .suggests((ctx, builder) -> {
@@ -107,7 +110,7 @@ public class ExtremoCommand {
                             return 1;
                         }))
                 .executes(ctx -> {
-                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo spawn <mob> | /extremo give <item> | /extremo bestiary help | /extremo resetconsumables <jugador> | /extremo reload"));
+                    ctx.getSource().sendFailure(Component.literal("\u00a7cUso: /extremo spawn <mob> | /extremo give <item> | /extremo bestiary help | /extremo misiones help | /extremo resetconsumables <jugador> | /extremo reload"));
                     return 0;
                 })
             );

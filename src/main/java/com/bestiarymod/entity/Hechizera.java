@@ -52,7 +52,7 @@ public class Hechizera extends Witch {
 
     public Hechizera(EntityType<? extends Hechizera> entityType, Level level) {
         super(entityType, level);
-        this.setCustomName(net.minecraft.network.chat.Component.literal("Hechizera"));
+        this.setCustomName(net.minecraft.network.chat.Component.literal("\u00a75Hechizera"));
         this.setCustomNameVisible(true);
     }
 

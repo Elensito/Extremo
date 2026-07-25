@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.bestiarymod.command.BestiaryCommand;
 import com.bestiarymod.command.BestiaryConfigCommand;
 import com.bestiarymod.command.ExtremoCommand;
+import com.bestiarymod.command.QuestCommand;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.entity.ModEntities;
@@ -34,6 +35,8 @@ import com.bestiarymod.handler.MobKillHandler;
 import com.bestiarymod.item.ModItems;
 import com.bestiarymod.item.TpWandItem;
 import com.bestiarymod.access.HeartDataAccessor;
+import com.bestiarymod.mission.MissionManager;
+import com.bestiarymod.mission.MissionState;
 import com.bestiarymod.network.AllHeartsSyncPayload;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
@@ -60,6 +63,7 @@ public class Extremo implements ModInitializer {
         BestiaryCommand.register();
         ExtremoCommand.register();
         MobKillHandler.register();
+        QuestCommand.register();
         TpWandItem.registerTickHandler();
         SpawnConfigManager.init();
         SpawnerRegistry.register();
@@ -106,10 +110,13 @@ public class Extremo implements ModInitializer {
             currentServer = server;
             BestiaryConfigManager.loadAll(FabricLoader.getInstance().getConfigDir());
             BestiaryState.load(server);
+            MissionManager.loadAll(FabricLoader.getInstance().getConfigDir());
+            MissionState.load(server);
         });
 
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             BestiaryState.save(server);
+            MissionState.save(server);
         });
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -122,6 +129,9 @@ public class Extremo implements ModInitializer {
                         Component.literal("\u00a7d\u2728 Cetro Dimensional \u00a77recargando \u00a7f" + seconds + "s")
                     ));
                 }
+            }
+            if (server.getTickCount() % 600 == 0) {
+                MissionManager.tickExpired();
             }
         });
 

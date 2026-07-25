@@ -2,14 +2,18 @@ package com.bestiarymod.mixin;
 
 import com.bestiarymod.item.CarteraItem;
 import com.bestiarymod.item.CoinItem;
+import com.bestiarymod.mission.MissionState;
 import com.bestiarymod.screen.CarteraContainer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DispenserMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemContainerContents;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,9 +27,11 @@ import java.util.List;
 @Mixin(Inventory.class)
 public class PlayerInventoryMixin {
     @Shadow @Final public Player player;
+    private Item capturedItem = Items.AIR;
 
     @Inject(method = "add(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
     private void onAddItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        this.capturedItem = stack.getItem();
         if (stack.isEmpty()) return;
         if (!(stack.getItem() instanceof CoinItem)) return;
 
@@ -69,6 +75,13 @@ public class PlayerInventoryMixin {
             cartera.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(items));
             stack.setCount(toAdd);
             cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "add(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("RETURN"))
+    private void onAddItemReturn(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValue() && player instanceof ServerPlayer sp && capturedItem != Items.AIR) {
+            MissionState.onPlayerCollect(sp, capturedItem, stack.getCount());
         }
     }
 

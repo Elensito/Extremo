@@ -3,6 +3,7 @@ package com.bestiarymod.handler;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.config.BestiaryEntry;
 import com.bestiarymod.data.BestiaryState;
+import com.bestiarymod.mission.MissionState;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,8 @@ public class MobKillHandler {
 
             String mobId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
             if (mobId.isEmpty()) return;
+
+            MissionState.onPlayerKill(player, mobId);
 
             BestiaryEntry entry = BestiaryConfigManager.getEntry(mobId);
             if (entry == null) return;
