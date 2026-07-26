@@ -222,17 +222,6 @@ public class ModItems {
         )
     );
 
-    public static final Identifier HUNTER_KNIFE_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "hunter_knife");
-    public static final Item HUNTER_KNIFE = Registry.register(
-        BuiltInRegistries.ITEM,
-        HUNTER_KNIFE_ID,
-        new HunterKnifeItem(new Item.Properties()
-            .stacksTo(1)
-            .setId(ResourceKey.create(Registries.ITEM, HUNTER_KNIFE_ID))
-            .component(DataComponents.ITEM_MODEL, HUNTER_KNIFE_ID)
-        )
-    );
-
     public static final Identifier LENTE_VISION_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "lente_vision");
     public static final Item LENTE_VISION = Registry.register(
         BuiltInRegistries.ITEM,

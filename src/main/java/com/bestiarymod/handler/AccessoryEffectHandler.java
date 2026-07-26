@@ -151,16 +151,5 @@ public class AccessoryEffectHandler {
         return false;
     }
 
-    public static int getHunterKnifeBonus(ServerPlayer player, LivingEntity target) {
-        String mobId = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).toString();
-        BestiaryEntry entry = BestiaryConfigManager.getEntry(mobId);
-        if (entry == null) return 0;
-        int kills = BestiaryState.getKills(player.getUUID(), mobId);
-        int level = 0;
-        for (var lvl : entry.levels) {
-            if (kills >= lvl.killCount) level++;
-            else break;
-        }
-        return level;
-    }
+
 }
