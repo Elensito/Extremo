@@ -1,6 +1,7 @@
 package com.bestiarymod.mixin;
 
 import com.bestiarymod.item.EnderPearlUpgradeItem;
+import com.bestiarymod.item.ExperienceArtifactItem;
 import com.bestiarymod.item.TpWandItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -24,6 +25,13 @@ public class AnvilMenuMixin {
         AnvilMenu self = (AnvilMenu) (Object) this;
         ItemStack left = self.getSlot(0).getItem();
         ItemStack right = self.getSlot(1).getItem();
+
+        if (left.getItem() instanceof ExperienceArtifactItem || right.getItem() instanceof ExperienceArtifactItem) {
+            self.getSlot(2).set(ItemStack.EMPTY);
+            this.cost.set(0);
+            ci.cancel();
+            return;
+        }
 
         if (left.isEmpty() || right.isEmpty()) return;
         if (!(left.getItem() instanceof TpWandItem wand)) return;

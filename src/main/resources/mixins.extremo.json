@@ -14,7 +14,8 @@
     "PlayerConsumableMixin",
     "ServerPlayerTabListMixin",
     "ArrowDamageMixin",
-    "PotionDurationMixin"
+    "PotionDurationMixin",
+    "ExperienceBoostMixin"
   ],
   "injectors": {
     "defaultRequire": 1
