@@ -22,7 +22,7 @@ public class MobKillHandler {
             if (entity instanceof Player) return;
 
             if (AccessoryEffectHandler.hasAmuletoSangre(player)) {
-                player.heal(2.0f);
+                player.heal(1.0f);
             }
 
             String mobId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();

@@ -22,6 +22,6 @@ public class VampireTalismanItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("\u00a77Al matar un mob, recuperas \u00a7c1 coraz\u00f3n\u00a77."));
+        tooltipAdder.accept(Component.literal("\u00a77Al matar un mob, recuperas \u00a7c\u00bd coraz\u00f3n\u00a77."));
     }
 }
