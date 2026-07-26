@@ -3,6 +3,8 @@ package com.bestiarymod.handler;
 import com.bestiarymod.config.BestiaryConfigManager;
 import com.bestiarymod.config.BestiaryEntry;
 import com.bestiarymod.data.BestiaryState;
+import com.bestiarymod.config.BestiaryEntry;
+import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.item.HunterTalismanItem;
 import com.bestiarymod.item.LenteVisionItem;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,7 +65,10 @@ public class AccessoryEffectHandler {
         List<Mob> mobs = level.getEntitiesOfClass(Mob.class, aabb, mob -> {
             if (!mob.isAlive()) return false;
             String id = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType()).toString();
-            return BestiaryConfigManager.getEntry(id) != null;
+            BestiaryEntry entry = BestiaryConfigManager.getEntry(id);
+            if (entry == null) return false;
+            int claimed = BestiaryState.getClaimedLevels(player.getUUID(), id).size();
+            return claimed < entry.levels.size();
         });
 
         if (mobs.isEmpty()) {
