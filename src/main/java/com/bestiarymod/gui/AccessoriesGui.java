@@ -13,6 +13,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import java.util.List;
@@ -42,8 +43,17 @@ public class AccessoriesGui implements MenuProvider {
 
             for (int i = 0; i < 54; i++) {
                 boolean unlocked = i < unlockedSlots;
+                int slotIndex = i;
                 addSlot(new Slot(inventory, i, 0, 0) {
-                    @Override public boolean mayPlace(ItemStack s) { return unlocked && !s.isEmpty(); }
+                    @Override public boolean mayPlace(ItemStack s) {
+                        if (!unlocked || s.isEmpty()) return false;
+                        for (int j = 0; j < 54; j++) {
+                            if (j == slotIndex) continue;
+                            ItemStack existing = inventory.getItem(j);
+                            if (!existing.isEmpty() && existing.getItem() == s.getItem()) return false;
+                        }
+                        return true;
+                    }
                     @Override public boolean mayPickup(Player p) { return unlocked; }
                 });
             }
@@ -72,11 +82,14 @@ public class AccessoriesGui implements MenuProvider {
             inventory.clearContent();
             for (int i = 0; i < 54; i++) {
                 if (i < unlockedSlots) {
-                    if (i < items.size() && !items.get(i).isEmpty()) {
-                        inventory.setItem(i, items.get(i).copy());
-                    } else {
-                        inventory.setItem(i, ItemStack.EMPTY);
+                    if (i < items.size()) {
+                        ItemStack saved = items.get(i);
+                        if (!saved.isEmpty() && saved.getItem() != Items.BARRIER) {
+                            inventory.setItem(i, saved.copy());
+                            continue;
+                        }
                     }
+                    inventory.setItem(i, ItemStack.EMPTY);
                 } else {
                     ItemStack slot = new ItemStack(Items.BARRIER);
                     slot.set(DataComponents.ITEM_MODEL, LOCKED_SLOT_MODEL);
@@ -95,7 +108,12 @@ public class AccessoriesGui implements MenuProvider {
         private void saveItems() {
             List<ItemStack> items = AccessoryItemState.getItems(player.getUUID());
             for (int i = 0; i < 54; i++) {
-                items.set(i, inventory.getItem(i).copy());
+                ItemStack slotStack = inventory.getItem(i).copy();
+                if (slotStack.getItem() == Items.BARRIER) {
+                    items.set(i, ItemStack.EMPTY);
+                } else {
+                    items.set(i, slotStack);
+                }
             }
             AccessoryItemState.setItems(player.getUUID(), items);
         }

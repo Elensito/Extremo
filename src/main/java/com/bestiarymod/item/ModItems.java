@@ -233,17 +233,6 @@ public class ModItems {
         )
     );
 
-    public static final Identifier NIGHT_VISION_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "night_vision");
-    public static final Item NIGHT_VISION = Registry.register(
-        BuiltInRegistries.ITEM,
-        NIGHT_VISION_ID,
-        new NightVisionItem(new Item.Properties()
-            .stacksTo(1)
-            .setId(ResourceKey.create(Registries.ITEM, NIGHT_VISION_ID))
-            .component(DataComponents.ITEM_MODEL, NIGHT_VISION_ID)
-        )
-    );
-
     public static final Identifier EXPERIENCE_ARTIFACT_ID = Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "experience_artifact");
     public static final Item EXPERIENCE_ARTIFACT = Registry.register(
         BuiltInRegistries.ITEM,

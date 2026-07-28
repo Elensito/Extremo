@@ -5,7 +5,6 @@ import com.bestiarymod.config.BestiaryEntry;
 import com.bestiarymod.data.BestiaryState;
 import com.bestiarymod.item.HunterTalismanItem;
 import com.bestiarymod.item.LenteVisionItem;
-import com.bestiarymod.item.NightVisionItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,12 +39,10 @@ public class AccessoryEffectHandler {
 
             boolean hasHunterTalisman = false;
             boolean hasLenteVision = false;
-            boolean hasNightVision = false;
 
             for (ItemStack stack : accessories) {
                 if (stack.getItem() instanceof HunterTalismanItem) hasHunterTalisman = true;
                 if (stack.getItem() instanceof LenteVisionItem) hasLenteVision = true;
-                if (stack.getItem() instanceof NightVisionItem) hasNightVision = true;
             }
 
             if (hasHunterTalisman) {
@@ -58,9 +55,6 @@ public class AccessoryEffectHandler {
                 applyLenteVision(player);
             }
 
-            if (hasNightVision) {
-                applyNightVision(player);
-            }
         }
     }
 
@@ -154,12 +148,5 @@ public class AccessoryEffectHandler {
             if (stack.getItem() instanceof com.bestiarymod.item.WitchTalismanItem) return true;
         }
         return false;
-    }
-
-    private static void applyNightVision(ServerPlayer player) {
-        player.addEffect(new net.minecraft.world.effect.MobEffectInstance(
-            net.minecraft.world.effect.MobEffects.NIGHT_VISION,
-            1200, 0, false, false, false
-        ));
     }
 }
