@@ -74,7 +74,7 @@ public class ModEntities {
         BuiltInRegistries.ENTITY_TYPE,
         Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "wildfire"),
         EntityType.Builder.<WildfireEntity>of(WildfireEntity::new, MobCategory.MONSTER)
-            .sized(0.9f, 2.0f)
+            .sized(1.8f, 3.8f)
             .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
                 Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "wildfire")))
     );

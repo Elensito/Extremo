@@ -193,6 +193,11 @@ public class WildfireEntity extends Monster {
     }
 
     @Override
+    public boolean fireImmune() {
+        return true;
+    }
+
+    @Override
     public boolean isOnFire() {
         return true;
     }

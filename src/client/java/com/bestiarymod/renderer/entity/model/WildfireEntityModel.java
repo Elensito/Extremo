@@ -96,6 +96,9 @@ public class WildfireEntityModel extends EntityModel<WildfireRenderState> {
             this.rightShield.visible = shields >= 2;
             this.backShield.visible = shields >= 3;
             this.leftShield.visible = shields >= 4;
+            float rot = state.ageInTicks * 0.05F;
+            this.shields.yRot = rot;
+            this.shields.xRot = (float) Math.sin(rot * 0.5F) * 0.05F;
         }
     }
 }

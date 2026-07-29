@@ -34,6 +34,6 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 
     @Override
     protected void scale(WildfireRenderState state, PoseStack poseStack) {
-        poseStack.scale(1.0F, 1.0F, 1.0F);
+        poseStack.scale(1.8F, 1.8F, 1.8F);
     }
 }
