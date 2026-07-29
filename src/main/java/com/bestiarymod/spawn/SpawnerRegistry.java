@@ -3,7 +3,6 @@ package com.bestiarymod.spawn;
 import com.bestiarymod.Extremo;
 import com.bestiarymod.entity.BerserkerGolem;
 import com.bestiarymod.entity.CaveBrute;
-import com.bestiarymod.entity.FrozenZombieEntity;
 import com.bestiarymod.entity.Hechizera;
 import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.entity.SkeletonDasher;
@@ -29,7 +28,6 @@ public class SpawnerRegistry {
         factories.put("extremo:berserker_golem", (type, level) -> new BerserkerGolem(ModEntities.BERSERKER_GOLEM, level));
         factories.put("extremo:skeleton_lord", (type, level) -> new SkeletonLord(ModEntities.SKELETON_LORD, level));
         factories.put("extremo:skeleton_minion", (type, level) -> new SkeletonMinion(ModEntities.SKELETON_MINION, level));
-        factories.put("extremo:frozen_zombie", (type, level) -> new FrozenZombieEntity(ModEntities.FROZEN_ZOMBIE, level));
         Extremo.LOGGER.info("[SpawnerRegistry] Fábricas registradas: {}", factories.keySet());
     }
 

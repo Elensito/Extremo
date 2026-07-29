@@ -5,7 +5,6 @@ import com.bestiarymod.item.ModItems;
 import com.bestiarymod.network.AllHeartsSyncPayload;
 import com.bestiarymod.network.HeartSyncPayload;
 import com.bestiarymod.network.ItemActivationPayload;
-import com.bestiarymod.renderer.FrozenZombieRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -32,7 +31,6 @@ public class ExtremoClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.BERSERKER_GOLEM, IronGolemRenderer::new);
         EntityRendererRegistry.register(ModEntities.SKELETON_LORD, SkeletonRenderer::new);
         EntityRendererRegistry.register(ModEntities.SKELETON_MINION, SkeletonRenderer::new);
-        EntityRendererRegistry.register(ModEntities.FROZEN_ZOMBIE, FrozenZombieRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(HeartSyncPayload.TYPE, (payload, context) -> {
             hearts = payload.hearts();
