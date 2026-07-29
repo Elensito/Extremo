@@ -6,6 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -70,6 +71,15 @@ public class ModEntities {
                 Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_minion")))
     );
 
+    public static final EntityType<FrozenZombieEntity> FROZEN_ZOMBIE = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "frozen_zombie"),
+        EntityType.Builder.<FrozenZombieEntity>of(FrozenZombieEntity::new, MobCategory.MONSTER)
+            .sized(0.6f, 1.95f)
+            .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
+                Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "frozen_zombie")))
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(DASHER, AbstractSkeleton.createAttributes().add(Attributes.MAX_HEALTH, 50.0));
         FabricDefaultAttributeRegistry.register(HECHIZERA, Hechizera.createHechizeraAttributes());
@@ -77,7 +87,10 @@ public class ModEntities {
         FabricDefaultAttributeRegistry.register(BERSERKER_GOLEM, BerserkerGolem.createBerserkerAttributes());
         FabricDefaultAttributeRegistry.register(SKELETON_LORD, SkeletonLord.createSkeletonLordAttributes());
         FabricDefaultAttributeRegistry.register(SKELETON_MINION, SkeletonMinion.createSkeletonMinionAttributes());
+        FabricDefaultAttributeRegistry.register(FROZEN_ZOMBIE, FrozenZombieEntity.createFrozenZombieAttributes());
         SpawnPlacements.register(DASHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+            (entityType, levelAccessor, reason, pos, randomSource) -> true);
+        SpawnPlacements.register(FROZEN_ZOMBIE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
             (entityType, levelAccessor, reason, pos, randomSource) -> true);
         Extremo.LOGGER.info("Registered custom entities");
     }
