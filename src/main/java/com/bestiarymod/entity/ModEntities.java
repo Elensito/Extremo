@@ -70,6 +70,15 @@ public class ModEntities {
                 Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "skeleton_minion")))
     );
 
+    public static final EntityType<WildfireEntity> WILDFIRE = Registry.register(
+        BuiltInRegistries.ENTITY_TYPE,
+        Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "wildfire"),
+        EntityType.Builder.<WildfireEntity>of(WildfireEntity::new, MobCategory.MONSTER)
+            .sized(0.9f, 2.0f)
+            .build(ResourceKey.create(BuiltInRegistries.ENTITY_TYPE.key(),
+                Identifier.fromNamespaceAndPath(Extremo.MOD_ID, "wildfire")))
+    );
+
     public static void register() {
         FabricDefaultAttributeRegistry.register(DASHER, AbstractSkeleton.createAttributes().add(Attributes.MAX_HEALTH, 50.0));
         FabricDefaultAttributeRegistry.register(HECHIZERA, Hechizera.createHechizeraAttributes());
@@ -77,7 +86,10 @@ public class ModEntities {
         FabricDefaultAttributeRegistry.register(BERSERKER_GOLEM, BerserkerGolem.createBerserkerAttributes());
         FabricDefaultAttributeRegistry.register(SKELETON_LORD, SkeletonLord.createSkeletonLordAttributes());
         FabricDefaultAttributeRegistry.register(SKELETON_MINION, SkeletonMinion.createSkeletonMinionAttributes());
+        FabricDefaultAttributeRegistry.register(WILDFIRE, WildfireEntity.createWildfireAttributes());
         SpawnPlacements.register(DASHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+            (entityType, levelAccessor, reason, pos, randomSource) -> true);
+        SpawnPlacements.register(WILDFIRE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
             (entityType, levelAccessor, reason, pos, randomSource) -> true);
         Extremo.LOGGER.info("Registered custom entities");
     }

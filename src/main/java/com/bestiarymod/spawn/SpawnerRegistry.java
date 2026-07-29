@@ -8,6 +8,7 @@ import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.entity.SkeletonDasher;
 import com.bestiarymod.entity.SkeletonLord;
 import com.bestiarymod.entity.SkeletonMinion;
+import com.bestiarymod.entity.WildfireEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -28,6 +29,7 @@ public class SpawnerRegistry {
         factories.put("extremo:berserker_golem", (type, level) -> new BerserkerGolem(ModEntities.BERSERKER_GOLEM, level));
         factories.put("extremo:skeleton_lord", (type, level) -> new SkeletonLord(ModEntities.SKELETON_LORD, level));
         factories.put("extremo:skeleton_minion", (type, level) -> new SkeletonMinion(ModEntities.SKELETON_MINION, level));
+        factories.put("extremo:wildfire", (type, level) -> new WildfireEntity(ModEntities.WILDFIRE, level));
         Extremo.LOGGER.info("[SpawnerRegistry] Fábricas registradas: {}", factories.keySet());
     }
 

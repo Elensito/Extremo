@@ -1,5 +1,7 @@
 package com.bestiarymod;
 
+import com.bestiarymod.client.ModLayerDefinitions;
+import com.bestiarymod.renderer.entity.renderer.WildfireEntityRenderer;
 import com.bestiarymod.entity.ModEntities;
 import com.bestiarymod.item.ModItems;
 import com.bestiarymod.network.AllHeartsSyncPayload;
@@ -25,12 +27,14 @@ public class ExtremoClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        ModLayerDefinitions.register();
         EntityRendererRegistry.register(ModEntities.DASHER, SkeletonRenderer::new);
         EntityRendererRegistry.register(ModEntities.HECHIZERA, WitchRenderer::new);
         EntityRendererRegistry.register(ModEntities.CAVE_BRUTE, ZombieRenderer::new);
         EntityRendererRegistry.register(ModEntities.BERSERKER_GOLEM, IronGolemRenderer::new);
         EntityRendererRegistry.register(ModEntities.SKELETON_LORD, SkeletonRenderer::new);
         EntityRendererRegistry.register(ModEntities.SKELETON_MINION, SkeletonRenderer::new);
+        EntityRendererRegistry.register(ModEntities.WILDFIRE, WildfireEntityRenderer::new);
 
         ClientPlayNetworking.registerGlobalReceiver(HeartSyncPayload.TYPE, (payload, context) -> {
             hearts = payload.hearts();
